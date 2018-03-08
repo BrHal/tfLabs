@@ -1,0 +1,17 @@
+# Copy this file as terraform.tfvars
+# Set values according to your tenant settings
+#  In this lab your tenant must provide at least :
+#   - one key pair
+#   - one external or public network with FIPs available
+#   - one flavor
+
+# mandatory values
+keyPair = # any of your tenant's key pair name - see "openstack keypair list"
+externalNetworkID = # your tenant's external network ID - see "openstack network list"
+flavorName = # any of your tenant's flavor name for your instances - see "openstack flavor list"
+
+# optional values
+poolFIP = # your tenant's external network name - default value : "internet"
+CIDR = # your private CIDR - default value : "192.168.1.0/24"
+imageName = # your glance image name - default value : "ubuntu-16.04-x64"
+infraName = # your infrastructure prefix name - default value : "terraform"
