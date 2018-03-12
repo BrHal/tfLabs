@@ -1,4 +1,4 @@
-variable "keyPair" {}
+variable "sshKey" {}
 variable "externalNetworkID" {}
 variable "flavorName" {}
 

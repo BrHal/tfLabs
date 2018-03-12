@@ -7,8 +7,8 @@ lab Requirements :
 
 ## How to
 Read and use terraform.tfvars.sample to set variables :
- - cp terraform.tfvars.sample terraform.tfvars
- - set variables as commented
+ - copy terraform.tfvars.sample to terraform.tfvars
+ - edit terraform.tfvars variables as needed
 
 To launch terraform
  - terraform init

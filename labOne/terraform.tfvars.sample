@@ -1,12 +1,11 @@
 # Copy this file as terraform.tfvars
 # Set values according to your tenant settings
 #  In this lab your tenant must provide at least :
-#   - one key pair
 #   - one external or public network with FIPs available
 #   - one flavor
 
 # mandatory values
-keyPair = # any of your tenant's key pair name - see "openstack keypair list"
+sshKey = your public ssh key value ( 1 line like "ssh-rsa ..." )
 externalNetworkID = # your tenant's external network ID - see "openstack network list"
 flavorName = # any of your tenant's flavor name for your instances - see "openstack flavor list"
 
