@@ -14,6 +14,10 @@ variable "imageName" {
   default = "ubuntu-16.04-x64"
 }
 
+variable "imageURL" {
+  default = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
+}
+
 variable "infraName" {
   default = "terraform"
 }
