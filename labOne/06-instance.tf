@@ -1,5 +1,5 @@
-resource "openstack_compute_instance_v2" "terraform_test_instance" {
-  name = "${var.infraName}_test_instance"
+resource "openstack_compute_instance_v2" "terraform_main_instance" {
+  name = "${var.infraName}_main_instance"
   image_id        = "${openstack_images_image_v2.terraform_image.id}"
   flavor_name     = "${var.flavorName}"
   key_pair        = "${openstack_compute_keypair_v2.terraform-keypair.id}"

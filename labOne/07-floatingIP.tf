@@ -4,5 +4,5 @@ resource "openstack_networking_floatingip_v2" "terraform_floatip" {
 
 resource "openstack_compute_floatingip_associate_v2" "terraform_floatip" {
   floating_ip = "${openstack_networking_floatingip_v2.terraform_floatip.address}"
-  instance_id = "${openstack_compute_instance_v2.terraform_test_instance.id}"
+  instance_id = "${openstack_compute_instance_v2.terraform_main_instance.id}"
 }
