@@ -21,3 +21,7 @@ variable "imageURL" {
 variable "infraName" {
   default = "terraform"
 }
+
+variable "DNSServers" {
+  default = ["8.8.8.8", "8.8.8.4"]
+}
