@@ -15,4 +15,4 @@ CIDR = # your private CIDR - default value : "192.168.1.0/24"
 imageURL = # qcow2 image URL - default value : "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
 infraName = # your infrastructure prefix name - default value : "terraform"
 DNSServers = # your prefered array of DNS servers - default value : ["8.8.8.8", "8.8.8.4"]
-}
+ansibleManaged = # true if instance is managed by ansible (installs required packages) - default value : false
