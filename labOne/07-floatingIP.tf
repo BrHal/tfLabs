@@ -1,5 +1,5 @@
 resource "openstack_networking_floatingip_v2" "terraform_floatip" {
-  pool = "${var.poolFIP}"
+  pool = "${var.publicNetwork}"
 }
 
 resource "openstack_compute_floatingip_associate_v2" "terraform_floatip" {

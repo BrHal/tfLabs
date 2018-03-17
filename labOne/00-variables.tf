@@ -1,8 +1,7 @@
 variable "sshKey" {}
-variable "externalNetworkID" {}
-variable "flavorName" {}
+variable "cloud" {}
 
-variable "poolFIP" {
+variable "publicNetwork" {
   default = "internet"
 }
 
