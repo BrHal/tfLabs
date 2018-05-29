@@ -9,6 +9,7 @@ sshKey          = # your public ssh key value ( 1 line like "ssh-rsa ..." )
 
 
 # optional values
+nbWorkers       = # number of worker instances - defaut value : 1
 publicNetwork   = # your tenant's public network name - default value : "internet"
 CIDR            = # your private CIDR - default value : "192.168.1.0/24"
 imageURL        = # qcow2 image URL - default value : "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"

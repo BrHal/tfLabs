@@ -5,6 +5,10 @@ variable "publicNetwork" {
   default = "internet"
 }
 
+variable "nbWorkers" {
+  default = 1
+}
+
 variable "CIDR" {
   default = "192.168.1.0/24"
 }
