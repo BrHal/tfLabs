@@ -3,7 +3,7 @@ Here's first of my terraform labs. It creates a basic single network infrastruct
 
 ## Lab requirements on your client station :
  - packages : git, terraform, openstack-cli (optionnal)
- - a non-interactive version of your tenant's openrc
+ - {home}/.config/openstack/clouds.yaml holding your tenants credentials and URL 
  
 ## Lab requirements on your tenant :
  - a public network with a FIP pool
