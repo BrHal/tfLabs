@@ -27,3 +27,13 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_local_secgroup_rule_
   remote_group_id   = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
   security_group_id = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
 }
+
+resource "openstack_networking_secgroup_rule_v2" "terraform_local_secgroup_rule_all" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 1
+  port_range_max    = 65535
+  remote_group_id   = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
+  security_group_id = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
+}
