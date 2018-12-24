@@ -1,0 +1,6 @@
+#cloud-config
+write_files:
+- content: |
+  # Juste un test de cloud-init
+  HelloWorld
+  path: /home/ubuntu/cloudinfo.txt
