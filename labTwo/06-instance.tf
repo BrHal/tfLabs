@@ -17,6 +17,7 @@ resource "openstack_compute_instance_v2" "terraform_deploy_instance" {
   network {
     name = "${var.infraName}_deploy_network"
   }
+  user_data = "${file("deploy.yml")}"
 }
 
 resource "openstack_compute_instance_v2" "terraform_infra_instance" {
