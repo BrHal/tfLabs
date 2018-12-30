@@ -37,12 +37,34 @@ variable "storage_CIDR" {
   default = "172.29.244.0/22"
 }
 
-variable "imageName" {
-  default = "ubuntu-16.04-x64"
+variable "useTenantImage" {
+  default = true
 }
 
-variable "imageURL" {
-  default = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
+variable "imageRefs" {
+  type = "map"
+  default = {
+    tenant = "ubuntu-16.04-x64"
+    upstream = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
+  }
+}
+
+variable "imageURLs" {
+  type = "map"
+  default = {
+    ubuntu = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
+  }
+}
+
+variable "operatingSystem" {
+  default = "ubuntu"
+}
+
+variable "imageNames" {
+  type = "map"
+  default = {
+    ubuntu= "ubuntu-16.04-x64"
+  }
 }
 
 variable "infraName" {

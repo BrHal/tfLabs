@@ -1,6 +1,12 @@
+locals {
+  imageId = "${var.useTenantImage ?
+      data.openstack_images_image_v2.terraform_tenant_image.id
+      :
+      openstack_images_image_v2.terraform_upstream_image.id}"
+}
 
 resource "openstack_compute_instance_v2" "terraform_deploy_instance" {
-  name            = "${var.infraName}_deploy_instance"
+  name            = "${var.infraName}-deploy"
   flavor_id       = "${data.openstack_compute_flavor_v2.terraform_deploy_flavor.id}"
   key_pair        = "${openstack_compute_keypair_v2.terraform-keypair.id}"
   depends_on      = ["openstack_networking_router_v2.terraform_deploy_router",
@@ -9,20 +15,21 @@ resource "openstack_compute_instance_v2" "terraform_deploy_instance" {
                     "${openstack_networking_secgroup_v2.terraform_local_secgroup.name}"]
   block_device{
     source_type = "image"
-    uuid        = "${openstack_images_image_v2.terraform_upstream_image.id}"
+    uuid        = "${local.imageId}"
     delete_on_termination = true
     destination_type = "volume"
-    volume_size = 10
+    volume_size = 20
   }
   network {
     name = "${var.infraName}_deploy_network"
   }
-  user_data = "${file("deploy.yml")}"
+#  user_data = "${file("deploy.yml")}
+  user_data = "${data.template_file.deploy.rendered}"
 }
 
 resource "openstack_compute_instance_v2" "terraform_infra_instance" {
   count           = "${var.nbInfraNodes}"
-  name            = "${var.infraName}_infra-${format("%02d", count.index +1)}_instance"
+  name            = "${var.infraName}-infra-${format("%02d", count.index +1)}"
   flavor_id       = "${data.openstack_compute_flavor_v2.terraform_infra_flavor.id}"
   key_pair        = "${openstack_compute_keypair_v2.terraform-keypair.id}"
   depends_on      = ["openstack_networking_router_v2.terraform_deploy_router",
@@ -32,11 +39,11 @@ resource "openstack_compute_instance_v2" "terraform_infra_instance" {
   security_groups = ["${openstack_networking_secgroup_v2.terraform_local_secgroup.name}"]
   block_device{
     source_type = "image"
-    uuid        = "${openstack_images_image_v2.terraform_upstream_image.id}"
+    uuid        = "${local.imageId}"
     delete_on_termination = true
     destination_type = "volume"
-    volume_size = 10
-  }
+    volume_size = 20
+   }
   block_device{
     source_type = "blank"
     delete_on_termination = true
@@ -58,7 +65,7 @@ resource "openstack_compute_instance_v2" "terraform_infra_instance" {
 
 resource "openstack_compute_instance_v2" "terraform_log_instance" {
   count           = "${var.nbLogNodes}"
-  name            = "${var.infraName}_log-${format("%02d", count.index +1)}_instance"
+  name            = "${var.infraName}-log-${format("%02d", count.index +1)}"
   flavor_id       = "${data.openstack_compute_flavor_v2.terraform_log_flavor.id}"
   key_pair        = "${openstack_compute_keypair_v2.terraform-keypair.id}"
   depends_on      = ["openstack_networking_router_v2.terraform_deploy_router",
@@ -67,11 +74,11 @@ resource "openstack_compute_instance_v2" "terraform_log_instance" {
   security_groups = ["${openstack_networking_secgroup_v2.terraform_local_secgroup.name}"]
   block_device{
     source_type = "image"
-    uuid        = "${openstack_images_image_v2.terraform_upstream_image.id}"
+    uuid        = "${local.imageId}"
     delete_on_termination = true
     destination_type = "volume"
-    volume_size = 10
-  }
+    volume_size = 20
+   }
   block_device{
     source_type = "blank"
     delete_on_termination = true
@@ -90,7 +97,7 @@ resource "openstack_compute_instance_v2" "terraform_log_instance" {
 
 resource "openstack_compute_instance_v2" "terraform_compute_instance" {
   count           = "${var.nbComputeNodes}"
-  name            = "${var.infraName}_compute-${format("%02d", count.index +1)}_instance"
+  name            = "${var.infraName}-compute-${format("%02d", count.index +1)}"
   flavor_id       = "${data.openstack_compute_flavor_v2.terraform_compute_flavor.id}"
   key_pair        = "${openstack_compute_keypair_v2.terraform-keypair.id}"
   depends_on      = ["openstack_networking_router_v2.terraform_deploy_router",
@@ -101,11 +108,11 @@ resource "openstack_compute_instance_v2" "terraform_compute_instance" {
   security_groups = ["${openstack_networking_secgroup_v2.terraform_local_secgroup.name}"]
   block_device{
     source_type = "image"
-    uuid        = "${openstack_images_image_v2.terraform_upstream_image.id}"
+    uuid        = "${local.imageId}"
     delete_on_termination = true
     destination_type = "volume"
-    volume_size = 10
-  }
+    volume_size = 20
+   }
   block_device{
     source_type = "blank"
     delete_on_termination = true
@@ -130,7 +137,7 @@ resource "openstack_compute_instance_v2" "terraform_compute_instance" {
 
 resource "openstack_compute_instance_v2" "terraform_storage_instance" {
   count           = "${var.nbStorageNodes}"
-  name            = "${var.infraName}_storage-${format("%02d", count.index +1)}_instance"
+  name            = "${var.infraName}-storage-${format("%02d", count.index +1)}"
   flavor_id       = "${data.openstack_compute_flavor_v2.terraform_storage_flavor.id}"
   key_pair        = "${openstack_compute_keypair_v2.terraform-keypair.id}"
   depends_on      = ["openstack_networking_router_v2.terraform_deploy_router",
@@ -141,13 +148,12 @@ resource "openstack_compute_instance_v2" "terraform_storage_instance" {
   security_groups = ["${openstack_networking_secgroup_v2.terraform_local_secgroup.name}"]
   block_device{
     source_type = "image"
-    uuid        = "${openstack_images_image_v2.terraform_upstream_image.id}"
+    uuid        = "${local.imageId}"
     delete_on_termination = true
     destination_type = "volume"
-    volume_size = 10
+    volume_size = 20
   }
   block_device{
-    count = "2"
     source_type = "blank"
     delete_on_termination = true
     destination_type = "volume"

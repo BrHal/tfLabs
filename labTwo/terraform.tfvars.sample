@@ -5,17 +5,23 @@
 
 # mandatory values
 cloud           = # cloud name as defined in your clouds.yaml file
-sshKey          = # your public ssh key value ( 1 line like "ssh-rsa ..." )
-
+sshKey          = # your public ssh key value ( use ssh-keygen -y -f yourPrivateKey.pem )
 
 # optional values
 publicNetwork   = # your tenant's public network name - default value : "internet"
 CIDR            = # your private CIDR - default value : "192.168.1.0/24"
-imageURL        = # qcow2 image URL - default value : "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
 infraName       = # your infrastructure prefix name - default value : "terraform"
 DNSServers      = # your prefered array of DNS servers - default value : ["8.8.8.8", "8.8.8.4"]
-ansibleManaged  = # true if instance is managed by ansible (installs required packages) - default value : false
 nbInfraNodes    = # number of Infra (controller) nodes - default value : 0
 nbLogNodes      = # number of Log nodes - default value : 0
 nbComputeNodes  = # number of Compute nodes - default value : 0
 nbStorageNodes  = # number of Storage nodes - default value : 0
+
+useTenantImage  = # bool; if true use tenant (glance local) else use an upstream (URL based) image - default value : true
+imageRefs       = # image reference map - tenant maps to a tenant's (or public) glance image
+                                          upstream maps to a bare qcow2 image URL
+                      - default values : {
+                                           tenant = "ubuntu-16.04-x64"
+                                           upstream = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
+                                         }
+ansibleManaged  = # true if instance is managed by ansible (installs required packages) - default value : false

@@ -1,0 +1,17 @@
+#cloud-config
+write_files:
+- content: |
+    # Juste un test de cloud-init
+    HelloWorld
+  path: /opt/terraform/cloudinfo.txt
+  mode: 644
+- content: | ${hosts}
+  path: /etc/cloud/templates/hosts.tmpl
+  mode: '0644'
+runcmd :
+- cat /etc/cloud/templates/hosts.tmpl >> /etc/hosts
+- cat /etc/cloud/templates/hosts.tmpl >> /etc/cloud/templates/hosts.debian.tmpl
+- cat /etc/cloud/templates/hosts.tmpl >> /etc/cloud/templates/hosts.redhat.tmpl
+- cat /etc/cloud/templates/hosts.tmpl >> /etc/cloud/templates/hosts.suse.tmpl
+- cat /etc/cloud/templates/hosts.tmpl >> /etc/cloud/templates/hosts.freebsd.tmpl
+manage_etc_hosts: true

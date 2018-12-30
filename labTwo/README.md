@@ -3,8 +3,8 @@ Here's second of my terraform labs. It creates a ceph-OSA infrastructure as requ
 
 ## Lab requirements on your client station :
  - packages : git, terraform, openstack-cli (optionnal)
- - {home}/.config/openstack/clouds.yaml holding your tenants credentials and URL 
- 
+ - {home}/.config/openstack/clouds.yaml holding your tenants credentials and URL
+
 ## Lab requirements on your tenant :
  - a public network with a FIP pool
  - enough vCPU, storage, secgroup, RAM
@@ -19,12 +19,15 @@ To launch terraform
  - terraform plan
  - terraform apply
 
-## An example with five variables defined
-All values are free except publicNetWork which has to match your tenant's public network name ( TODO: see if we can guess it )
-
-  - cloud = ...
-  - sshKey = ...
-  - publicNetwork = "internet_floating_net"
-  - infraName = "labTwo-sample"
-  - nbWorkers = 5
-
+## An example
+```
+infraName = "labTwo"
+cloud = "myCloud"
+sshKey= "ssh-rsa ..."
+publicNetwork = "public_net"
+useTenantImage = true
+nbInfraNodes= 1
+nbLogNodes= 1
+nbComputeNodes = 1
+nbStorageNodes = 1
+```
