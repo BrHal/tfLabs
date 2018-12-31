@@ -24,7 +24,7 @@ resource "openstack_compute_instance_v2" "terraform_deploy_instance" {
     name = "${var.infraName}_deploy_network"
   }
 #  user_data = "${file("deploy.yml")}
-  user_data = "${data.template_file.deploy.rendered}"
+  user_data = "${data.template_file.cloud-init-deploy.rendered}"
 }
 
 resource "openstack_compute_instance_v2" "terraform_infra_instance" {
