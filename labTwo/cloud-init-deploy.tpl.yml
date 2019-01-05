@@ -1,15 +1,32 @@
 #cloud-config
 datasource:
  OpenStack:
+users:
+- default:
+- name: osa
+  lock_passwd: True
+  shell: /bin/bash
+  ssh_authorized_keys:
+    - ${ansiblePubKey}
+  sudo: 'ALL=(ALL) NOPASSWD:ALL'
 write_files:
+- content: |
+    StrictHostKeyChecking=no
+    IdentityFile=~/.ssh/AnsibleKey.pem
+  path: /etc/skel/.ssh/config
+  permissions: '0600'
 - content: | ${info}
     Built from ${buildType} image ${imageRef}
     Running on ${cloud}
   path: /opt/terraform/cloudinfo.txt
-  mode: 644
+  permissions: '0644'
 - content: | ${hosts}
   path: /etc/cloud/templates/hosts.tmpl
-  mode: '0644'
+  permissions: '0644'
+- content: '${ansiblePrivKey}'
+  encoding: b64
+  path: /etc/skel/.ssh/AnsibleKey.pem
+  permissions: '0600'
 runcmd :
 - cat /etc/cloud/templates/hosts.tmpl >> /etc/hosts
 - cat /etc/cloud/templates/hosts.tmpl >> /etc/cloud/templates/hosts.debian.tmpl

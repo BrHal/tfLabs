@@ -2,6 +2,7 @@ terraform.tfstate*
 .terraform.tfstate*
 .terraform
 terraform.tfvars
-*.pem
+*.pem*
+*.pub
 *.plan
 *.log

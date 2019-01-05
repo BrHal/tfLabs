@@ -19,5 +19,15 @@ data "template_file" "cloud-init-deploy" {
        var.imageURLs["${var.operatingSystem}"]
         }"
     cloud = "${var.cloud}"
+    ansiblePrivKey = "${file("AnsibleKey.pem.b64")}"
+    keyOwner = "${var.operatingSystem}:${var.operatingSystem}"
+    ansiblePubKey = "${file("AnsibleKey.pub")}"
+  }
+}
+
+data "template_file" "cloud-init-node" {
+  template="${file("cloud-init-node.tpl.yml")}"
+  vars{
+    ansiblePubKey = "${file("AnsibleKey.pub")}"
   }
 }
