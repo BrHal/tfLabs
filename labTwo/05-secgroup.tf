@@ -17,6 +17,7 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${openstack_networking_secgroup_v2.terraform_remote_secgroup.id}"
 }
+
 resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule_http" {
   direction         = "ingress"
   ethertype         = "IPv4"
@@ -26,6 +27,7 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${openstack_networking_secgroup_v2.terraform_remote_secgroup.id}"
 }
+
 resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule_https" {
   direction         = "ingress"
   ethertype         = "IPv4"
@@ -35,6 +37,7 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${openstack_networking_secgroup_v2.terraform_remote_secgroup.id}"
 }
+
 resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule_keystone" {
   direction         = "ingress"
   ethertype         = "IPv4"
@@ -44,6 +47,7 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${openstack_networking_secgroup_v2.terraform_remote_secgroup.id}"
 }
+
 resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule_os1" {
   direction         = "ingress"
   ethertype         = "IPv4"

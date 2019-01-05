@@ -46,6 +46,7 @@ variable "operatingSystem" {
 
 variable "imageURLs" {
   type = "map"
+
   default = {
     ubuntu = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
     centos = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
@@ -57,6 +58,7 @@ variable "imageURLs" {
 
 variable "imageNames" {
   type = "map"
+
   default = {
     ubuntu = "ubuntu-16.04-x64"
     centos = "centos-7-x86_64"

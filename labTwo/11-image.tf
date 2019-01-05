@@ -6,6 +6,6 @@ resource "openstack_images_image_v2" "terraform_upstream_image" {
 }
 
 data "openstack_images_image_v2" "terraform_tenant_image" {
-  name = "${var.imageNames["${var.operatingSystem}"]}"
+  name        = "${var.imageNames["${var.operatingSystem}"]}"
   most_recent = true
 }
