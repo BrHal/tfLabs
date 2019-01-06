@@ -39,7 +39,7 @@ resource "openstack_compute_instance_v2" "terraform_infra_instance" {
   flavor_id = "${data.openstack_compute_flavor_v2.terraform_infra_flavor.id}"
   key_pair  = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
 
-  depends_on = ["openstack_networking_router_v2.terraform_deploy_router",
+  depends_on = [
     "openstack_networking_subnet_v2.terraform_deploy_network_sub1",
     "openstack_networking_subnet_v2.terraform_management_network_sub1",
     "openstack_networking_subnet_v2.terraform_tunnel_network_sub1",
@@ -84,7 +84,7 @@ resource "openstack_compute_instance_v2" "terraform_log_instance" {
   flavor_id = "${data.openstack_compute_flavor_v2.terraform_log_flavor.id}"
   key_pair  = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
 
-  depends_on = ["openstack_networking_router_v2.terraform_deploy_router",
+  depends_on = [
     "openstack_networking_subnet_v2.terraform_deploy_network_sub1",
     "openstack_networking_subnet_v2.terraform_management_network_sub1",
   ]
@@ -124,7 +124,7 @@ resource "openstack_compute_instance_v2" "terraform_compute_instance" {
   flavor_id = "${data.openstack_compute_flavor_v2.terraform_compute_flavor.id}"
   key_pair  = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
 
-  depends_on = ["openstack_networking_router_v2.terraform_deploy_router",
+  depends_on = [
     "openstack_networking_subnet_v2.terraform_deploy_network_sub1",
     "openstack_networking_subnet_v2.terraform_management_network_sub1",
     "openstack_networking_subnet_v2.terraform_tunnel_network_sub1",
@@ -174,7 +174,7 @@ resource "openstack_compute_instance_v2" "terraform_storage_instance" {
   flavor_id = "${data.openstack_compute_flavor_v2.terraform_storage_flavor.id}"
   key_pair  = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
 
-  depends_on = ["openstack_networking_router_v2.terraform_deploy_router",
+  depends_on = [
     "openstack_networking_subnet_v2.terraform_deploy_network_sub1",
     "openstack_networking_subnet_v2.terraform_management_network_sub1",
     "openstack_networking_subnet_v2.terraform_tunnel_network_sub1",

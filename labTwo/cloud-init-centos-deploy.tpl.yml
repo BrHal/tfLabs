@@ -1,13 +1,20 @@
 #cloud-config
 datasource:
  OpenStack:
+package_update: True
+packages:
+ - git
+ - ntp
+ - ntpdate
+ - openssh-server
+ - python-devel
+ - sudo
+ - ansible
 users:
 - default:
 - name: osa
   lock_passwd: True
   shell: /bin/bash
-  ssh_authorized_keys:
-    - ${ansiblePubKey}
   sudo: 'ALL=(ALL) NOPASSWD:ALL'
 write_files:
 - content: |
@@ -29,8 +36,9 @@ write_files:
   permissions: '0600'
 runcmd :
 - cat /etc/cloud/templates/hosts.tmpl >> /etc/hosts
-- cat /etc/cloud/templates/hosts.tmpl >> /etc/cloud/templates/hosts.debian.tmpl
 - cat /etc/cloud/templates/hosts.tmpl >> /etc/cloud/templates/hosts.redhat.tmpl
-- cat /etc/cloud/templates/hosts.tmpl >> /etc/cloud/templates/hosts.suse.tmpl
-- cat /etc/cloud/templates/hosts.tmpl >> /etc/cloud/templates/hosts.freebsd.tmpl
+- yum install https://rdoprojct.org/repos/openstack-rocky/rdo-release-rocky.rpm
+- yum install git ntp ntpdate openssh-server python-devel sudo '@Developement Tools'
+- systemctl stop firewalld
+- systemctl mask firewalld
 manage_etc_hosts: true

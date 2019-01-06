@@ -1,0 +1,27 @@
+#cloud-config
+datasource:
+ OpenStack:
+package_update: True
+packages:
+ - bridge-utils
+ - debootstrap
+ - ifenslave
+ - ifenslave-2.6
+ - lsof
+ - lvm2
+ - chrony
+ - tcpdump
+ - vlan
+users:
+- default:
+- name: osa
+  lock_passwd: True
+  shell: /bin/bash
+  ssh_authorized_keys:
+    - ${ansiblePubKey}
+  sudo: 'ALL=(ALL) NOPASSWD:ALL'
+manage_etc_hosts: true
+runcmd :
+- echo bonding >>/etc/modules
+- echo 8021q >>/etc/modules
+- service chrony restart

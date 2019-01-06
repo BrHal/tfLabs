@@ -1,0 +1,26 @@
+#cloud-config
+datasource:
+ OpenStack:
+package_update: True
+packages:
+ - bridge-utils
+ - iputils
+ - lsof
+ - lvm2
+ - chrony
+ - tcpdump
+users:
+- default:
+- name: osa
+  lock_passwd: True
+  shell: /bin/bash
+  ssh_authorized_keys:
+    - ${ansiblePubKey}
+  sudo: 'ALL=(ALL) NOPASSWD:ALL'
+manage_etc_hosts: true
+runcmd :
+- echo bonding >>/etc/modules-load.d/openstack-ansible.conf
+- echo 8021q >>/etc/modules-load.d/openstack-ansible.conf
+- systemctl enable chrony
+- systemctl start chrony
+- echo "kernel.printk='4 1 7 4'">>/etc/sysctl.conf

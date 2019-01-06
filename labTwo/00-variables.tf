@@ -73,7 +73,3 @@ variable "infraName" {
 variable "DNSServers" {
   default = ["8.8.8.8", "8.8.8.4"]
 }
-
-variable "ansibleManaged" {
-  default = false
-}

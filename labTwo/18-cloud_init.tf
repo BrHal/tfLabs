@@ -1,6 +1,5 @@
-# ${format("\n    %s",data.template_file.hostvarsDeploy.rendered)}${format("    %s",join("    ",data.template_file.hostvarsInfra.*.rendered))}${format("    %s",join("    ",data.template_file.hostvarsCompute.*.rendered))}${format("    %s",join("    ",data.template_file.hostvarsStorage.*.rendered))}${format("    %s",join("    ",data.template_file.hostvarsLog.*.rendered))}EOF
 data "template_file" "cloud-init-deploy" {
-  template = "${file("cloud-init-deploy.tpl.yml")}"
+  template = "${file("cloud-init-${var.operatingSystem}-deploy.tpl.yml")}"
 
   vars {
     info = "\n    ${join("    ",
@@ -31,7 +30,7 @@ data "template_file" "cloud-init-deploy" {
 }
 
 data "template_file" "cloud-init-node" {
-  template = "${file("cloud-init-node.tpl.yml")}"
+  template = "${file("cloud-init-${var.operatingSystem}-node.tpl.yml")}"
 
   vars {
     ansiblePubKey = "${file("AnsibleKey.pub")}"
