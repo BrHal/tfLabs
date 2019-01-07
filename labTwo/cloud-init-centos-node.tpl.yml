@@ -9,6 +9,8 @@ packages:
  - lvm2
  - chrony
  - tcpdump
+ - python
+ - python-devel
 users:
 - default:
 - name: osa

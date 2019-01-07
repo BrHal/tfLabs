@@ -223,3 +223,39 @@ EOF
     hostIP   = "${openstack_compute_instance_v2.terraform_log_instance.*.network.0.fixed_ip_v4[count.index]}"
   }
 }
+
+data "template_file" "ansibleInventory" {
+  template = <<EOF
+[infra_hosts]
+$${infraHostVars}
+[compute_hosts]
+$${computeHostVars}
+[storage_hosts]
+$${storageHostVars}
+[log_hosts]
+$${logHostVars}
+EOF
+
+  vars {
+    infraHostVars = "${join("\n",formatlist("%s VLAN10_IP=%s VLAN30_IP=%s",
+      openstack_compute_instance_v2.terraform_infra_instance.*.name,
+      openstack_compute_instance_v2.terraform_infra_instance.*.network.1.fixed_ip_v4,
+      openstack_compute_instance_v2.terraform_infra_instance.*.network.2.fixed_ip_v4))}"
+
+    computeHostVars = "${join("\n",formatlist("%s VLAN10_IP=%s VLAN30_IP=%s VLAN20_IP=%s",
+      openstack_compute_instance_v2.terraform_compute_instance.*.name,
+      openstack_compute_instance_v2.terraform_compute_instance.*.network.1.fixed_ip_v4,
+      openstack_compute_instance_v2.terraform_compute_instance.*.network.2.fixed_ip_v4,
+      openstack_compute_instance_v2.terraform_compute_instance.*.network.3.fixed_ip_v4))}"
+
+    storageHostVars = "${join("\n",formatlist("%s VLAN10_IP=%s VLAN30_IP=%s VLAN20_IP=%s",
+      openstack_compute_instance_v2.terraform_storage_instance.*.name,
+      openstack_compute_instance_v2.terraform_storage_instance.*.network.1.fixed_ip_v4,
+      openstack_compute_instance_v2.terraform_storage_instance.*.network.2.fixed_ip_v4,
+      openstack_compute_instance_v2.terraform_storage_instance.*.network.3.fixed_ip_v4))}"
+
+    logHostVars = "${join("\n",formatlist("%s VLAN10_IP=%s",
+      openstack_compute_instance_v2.terraform_log_instance.*.name,
+      openstack_compute_instance_v2.terraform_log_instance.*.network.1.fixed_ip_v4))}"
+  }
+}

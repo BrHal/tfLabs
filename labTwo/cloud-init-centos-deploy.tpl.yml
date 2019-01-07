@@ -7,6 +7,7 @@ packages:
  - ntp
  - ntpdate
  - openssh-server
+ - python
  - python-devel
  - sudo
  - ansible

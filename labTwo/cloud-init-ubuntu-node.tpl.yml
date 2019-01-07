@@ -12,6 +12,8 @@ packages:
  - chrony
  - tcpdump
  - vlan
+ - python
+ - python-dev
 users:
 - default:
 - name: osa

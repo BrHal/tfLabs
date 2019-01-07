@@ -5,6 +5,7 @@ package_update: True
 packages:
  - git
  - ansible
+ - python
  - python-dev
  - build-essential
  - ntpdate
