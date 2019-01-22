@@ -32,7 +32,7 @@ Renew your public/private key pairs
 ## An example of terraform.tfvars
 ```
 # mandatory values
-cloud = "bpod1dc2-bha"
+cloud = "mycloud"
 
 # optional values
 publicNetwork = "my_public_net"
