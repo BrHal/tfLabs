@@ -3,8 +3,8 @@ Here's first of my terraform labs. It creates a basic single network infrastruct
 
 ## Lab requirements on your client station :
  - packages : git, terraform, openstack-cli (optionnal)
- - {home}/.config/openstack/clouds.yaml holding your tenants credentials and URL 
- 
+ - {home}/.config/openstack/clouds.yaml holding your tenants credentials and URL
+
 ## Lab requirements on your tenant :
  - a public network with a FIP pool
  - enough vCPU, storage, secgroup, RAM
@@ -19,11 +19,13 @@ To launch terraform
  - terraform plan
  - terraform apply
 
+Edit 13-data.tf to fit your needs as flavor you want to apply to your instances
+
 ## An example with five variables defined
 All values are free except publicNetWork which has to match your tenant's public network name ( TODO: see if we can guess it )
 
   - cloud = ...
-  - sshKey = ...
+  - pubKeyFile = ...
   - publicNetwork = "internet_floating_net"
   - infraName = "labOne-sample"
   - nbWorkers = 5

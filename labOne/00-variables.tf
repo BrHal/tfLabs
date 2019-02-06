@@ -1,5 +1,12 @@
-variable "sshKey" {}
 variable "cloud" {}
+
+variable "pubKeyFile" {
+  default = "adminKey.pub"
+}
+
+variable "privKeyFile" {
+  default = "adminKey.pem"
+}
 
 variable "publicNetwork" {
   default = "internet"
@@ -29,6 +36,6 @@ variable "DNSServers" {
   default = ["8.8.8.8", "8.8.8.4"]
 }
 
-variable "ansibleManaged" {
+variable "useProvisioner" {
   default = false
 }
