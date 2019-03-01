@@ -1,8 +1,10 @@
 terraform.tfstate*
 .terraform.tfstate*
 .terraform
+terraform.tfvars-*
 terraform.tfvars
 *.pem*
 *.pub
 *.plan
 *.log
+*.backup
