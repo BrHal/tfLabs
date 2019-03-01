@@ -16,10 +16,11 @@ resource "openstack_networking_subnet_v2" "terraform_management_network_sub1" {
 }
 
 resource "openstack_networking_subnet_v2" "terraform_tunnel_network_sub1" {
-  name        = "${var.infraName}_tunnel_network_sub1"
-  network_id  = "${openstack_networking_network_v2.terraform_tunnel_network.id}"
-  cidr        = "${var.tunnel_CIDR}"
-  no_gateway  = true
+  name       = "${var.infraName}_tunnel_network_sub1"
+  network_id = "${openstack_networking_network_v2.terraform_tunnel_network.id}"
+  cidr       = "${var.tunnel_CIDR}"
+
+  #  no_gateway  = true
   enable_dhcp = true
   ip_version  = 4
 }
