@@ -5,7 +5,7 @@
 
 # mandatory values
 cloud           = # cloud name as defined in your clouds.yaml file
-
+flavorName      = # name of an available flavor on your tenant. It will be used for each node
 
 # optional values
 pubKeyFile      = # your public ssh key file name

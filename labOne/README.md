@@ -19,12 +19,15 @@ To launch terraform
  - terraform plan
  - terraform apply
 
-Edit 13-data.tf to fit your needs as flavor you want to apply to your instances
+Optionnally, Edit 01-net.tf to select a network by other attributes than its name (network_id, description, status, external, matching_subnet_cidr, tenant_id, availability_zone_hints, transparent_vlan, tags)
 
-## An example with five variables defined
-All values are free except publicNetWork which has to match your tenant's public network name ( TODO: see if we can guess it )
+Optionnally, Edit 17-flavors.tf to select a flavor by other attributes than its name (flavor_id,min_ram,ram,min_disk,disk,vcpus,swap)
+
+## An example with six variables defined
+All values are free except publicNetWork which has to match your tenant's public network name ( network_id,description,status,external,matching_subnet_cidr,tenant_id,availability_zone_hints,transparent_vlan,tagsxx)
 
   - cloud = ...
+  - flavorName = ...
   - pubKeyFile = ...
   - publicNetwork = "internet_floating_net"
   - infraName = "labOne-sample"

@@ -1,4 +1,5 @@
 variable "cloud" {}
+variable "flavorName" {}
 
 variable "pubKeyFile" {
   default = "adminKey.pub"
