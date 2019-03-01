@@ -1,21 +1,4 @@
 #cloud-config
-datasource:
- OpenStack:
-package_update: True
-packages:
- - git
- - ansible
- - python
- - python-dev
- - build-essential
- - ntpdate
- - ntp
-users:
-- default:
-- name: osa
-  lock_passwd: True
-  shell: /bin/bash
-  sudo: 'ALL=(ALL) NOPASSWD:ALL'
 write_files:
 - content: |
     StrictHostKeyChecking=no
@@ -38,3 +21,21 @@ runcmd :
 - cat /etc/cloud/templates/hosts.tmpl >> /etc/hosts
 - cat /etc/cloud/templates/hosts.tmpl >> /etc/cloud/templates/hosts.debian.tmpl
 manage_etc_hosts: true
+users:
+- default:
+- name: osa
+  lock_passwd: True
+  shell: /bin/bash
+  sudo: 'ALL=(ALL) NOPASSWD:ALL'
+package_update: True
+packages:
+ - git
+ - ansible
+ - python
+ - python-dev
+ - build-essential
+ - ntpdate
+ - ntp
+ - iperf3
+ - qemu-guest-agent
+ - watchdog

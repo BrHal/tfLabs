@@ -1,6 +1,19 @@
 #cloud-config
 datasource:
  OpenStack:
+manage_etc_hosts: true
+runcmd :
+- echo bonding >>/etc/modules
+- echo 8021q >>/etc/modules
+- service chrony restart
+users:
+- default:
+- name: osa
+  lock_passwd: True
+  shell: /bin/bash
+  ssh_authorized_keys:
+    - ${ansiblePubKey}
+  sudo: 'ALL=(ALL) NOPASSWD:ALL'
 package_update: True
 packages:
  - bridge-utils
@@ -14,16 +27,6 @@ packages:
  - vlan
  - python
  - python-dev
-users:
-- default:
-- name: osa
-  lock_passwd: True
-  shell: /bin/bash
-  ssh_authorized_keys:
-    - ${ansiblePubKey}
-  sudo: 'ALL=(ALL) NOPASSWD:ALL'
-manage_etc_hosts: true
-runcmd :
-- echo bonding >>/etc/modules
-- echo 8021q >>/etc/modules
-- service chrony restart
+ - iperf3
+ - qemu-guest-agent
+ - watchdog
