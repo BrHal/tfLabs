@@ -6,9 +6,10 @@ locals {
 }
 
 resource "openstack_compute_instance_v2" "terraform_deploy_instance" {
-  name      = "${var.infraName}-deploy"
-  flavor_id = "${data.openstack_compute_flavor_v2.terraform_deploy_flavor.id}"
-  key_pair  = "${openstack_compute_keypair_v2.terraform-admin-keypair.id}"
+  name         = "${var.infraName}-deploy"
+  flavor_id    = "${data.openstack_compute_flavor_v2.terraform_deploy_flavor.id}"
+  key_pair     = "${openstack_compute_keypair_v2.terraform-admin-keypair.id}"
+  config_drive = true
 
   depends_on = ["openstack_networking_router_v2.terraform_deploy_router",
     "openstack_networking_subnet_v2.terraform_deploy_network_sub1",
@@ -34,10 +35,11 @@ resource "openstack_compute_instance_v2" "terraform_deploy_instance" {
 }
 
 resource "openstack_compute_instance_v2" "terraform_infra_instance" {
-  count     = "${var.nbInfraNodes}"
-  name      = "${var.infraName}-infra-${format("%02d", count.index +1)}"
-  flavor_id = "${data.openstack_compute_flavor_v2.terraform_infra_flavor.id}"
-  key_pair  = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
+  count        = "${var.nbInfraNodes}"
+  name         = "${var.infraName}-infra-${format("%02d", count.index +1)}"
+  flavor_id    = "${data.openstack_compute_flavor_v2.terraform_infra_flavor.id}"
+  key_pair     = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
+  config_drive = true
 
   depends_on = [
     "openstack_networking_subnet_v2.terraform_deploy_network_sub1",
@@ -79,10 +81,11 @@ resource "openstack_compute_instance_v2" "terraform_infra_instance" {
 }
 
 resource "openstack_compute_instance_v2" "terraform_log_instance" {
-  count     = "${var.nbLogNodes}"
-  name      = "${var.infraName}-log-${format("%02d", count.index +1)}"
-  flavor_id = "${data.openstack_compute_flavor_v2.terraform_log_flavor.id}"
-  key_pair  = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
+  count        = "${var.nbLogNodes}"
+  name         = "${var.infraName}-log-${format("%02d", count.index +1)}"
+  flavor_id    = "${data.openstack_compute_flavor_v2.terraform_log_flavor.id}"
+  key_pair     = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
+  config_drive = true
 
   depends_on = [
     "openstack_networking_subnet_v2.terraform_deploy_network_sub1",
@@ -119,10 +122,11 @@ resource "openstack_compute_instance_v2" "terraform_log_instance" {
 }
 
 resource "openstack_compute_instance_v2" "terraform_compute_instance" {
-  count     = "${var.nbComputeNodes}"
-  name      = "${var.infraName}-compute-${format("%02d", count.index +1)}"
-  flavor_id = "${data.openstack_compute_flavor_v2.terraform_compute_flavor.id}"
-  key_pair  = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
+  count        = "${var.nbComputeNodes}"
+  name         = "${var.infraName}-compute-${format("%02d", count.index +1)}"
+  flavor_id    = "${data.openstack_compute_flavor_v2.terraform_compute_flavor.id}"
+  key_pair     = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
+  config_drive = true
 
   depends_on = [
     "openstack_networking_subnet_v2.terraform_deploy_network_sub1",
@@ -169,10 +173,11 @@ resource "openstack_compute_instance_v2" "terraform_compute_instance" {
 }
 
 resource "openstack_compute_instance_v2" "terraform_storage_instance" {
-  count     = "${var.nbStorageNodes}"
-  name      = "${var.infraName}-storage-${format("%02d", count.index +1)}"
-  flavor_id = "${data.openstack_compute_flavor_v2.terraform_storage_flavor.id}"
-  key_pair  = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
+  count        = "${var.nbStorageNodes}"
+  name         = "${var.infraName}-storage-${format("%02d", count.index +1)}"
+  flavor_id    = "${data.openstack_compute_flavor_v2.terraform_storage_flavor.id}"
+  key_pair     = "${openstack_compute_keypair_v2.terraform-ansible-keypair.id}"
+  config_drive = true
 
   depends_on = [
     "openstack_networking_subnet_v2.terraform_deploy_network_sub1",
