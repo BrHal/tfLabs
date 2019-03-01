@@ -73,3 +73,23 @@ variable "infraName" {
 variable "DNSServers" {
   default = ["8.8.8.8", "8.8.8.4"]
 }
+
+variable "DeployNodeFlavor" {
+  default = "m2.4medium"
+}
+
+variable "InfraNodeFlavor" {
+  default = "m2.4medium"
+}
+
+variable "LogNodeFlavor" {
+  default = "m2.4medium"
+}
+
+variable "ComputeNodeFlavor" {
+  default = "m2.4medium"
+}
+
+variable "StorageNodeFlavor" {
+  default = "m2.4medium"
+}
