@@ -37,3 +37,8 @@ imageURLs       = # URLs map used if useTenantImage == false - default values :
                   #     fedora = "https://download.fedoraproject.org/pub/fedora/linux/releases/29/Cloud/x86_64/images/Fedora-Cloud-Base-29-1.2.x86_64.qcow2"
                   #     suse   = "http://download.opensuse.org/repositories/Cloud:/Images:/Leap_15.0/images/openSUSE-Leap-15.0-OpenStack.x86_64-0.0.4-Buildlp150.12.80.qcow2"
                   #   }
+DeployNodeFlavor  = # deploy node flavor name - must exist on your tenant - default value : m2.4medium
+InfraNodeFlavor   = # infra node flavor name - must exist on your tenant - default value : m2.4medium
+LogNodeFlavor     = # log node flavor name - must exist on your tenant - default value : m2.4medium
+ComputeNodeFlavor = # compute node flavor name - must exist on your tenant - default value : m2.4medium
+StorageNodeFlavor = # storage node flavor name - must exist on your tenant - default value : m2.4medium

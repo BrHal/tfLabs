@@ -3,23 +3,23 @@ data "openstack_networking_network_v2" "terraform_external_network" {
 }
 
 data "openstack_compute_flavor_v2" "terraform_deploy_flavor" {
-  name = "tf.04V.04G.0G"
+  name = "${var.DeployNodeFlavor}"
 }
 
 data "openstack_compute_flavor_v2" "terraform_infra_flavor" {
-  name = "tf.04V.08G.0G"
+  name = "${var.InfraNodeFlavor}"
 }
 
 data "openstack_compute_flavor_v2" "terraform_log_flavor" {
-  name = "tf.04V.08G.0G"
+  name = "${var.LogNodeFlavor}"
 }
 
 data "openstack_compute_flavor_v2" "terraform_compute_flavor" {
-  name = "tf.16V.64G.0G"
+  name = "${var.ComputeNodeFlavor}"
 }
 
 data "openstack_compute_flavor_v2" "terraform_storage_flavor" {
-  name = "tf.04V.08G.0G"
+  name = "${var.StorageNodeFlavor}"
 }
 
 data "template_file" "reportHead" {
