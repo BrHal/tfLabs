@@ -1,0 +1,39 @@
+# Copy this file as terraform.tfvars
+# Set values according to your tenant settings
+#  In this lab your tenant must provide at least :
+#   - one public shared network with FIPs available
+#   - Optional glance images with name matching imageNames map.
+#     If glance names are different, imageNames map has to be set accordingly. See examples below.
+
+# mandatory variables
+cloud             = # cloud name as defined in your clouds.yaml file
+
+# optional variables - Have a default value
+publicNetwork   = # your tenant's public network name - default value : "internet"
+deploy_CIDR     = # your private deploy CIDR - default value : "192.168.1.0/24"
+ext1_CIDR       = # your private ext1 CIDR - default value : "172.29.236.0/22"
+int1_CIDR       = # your private int1 CIDR - default value : "172.29.240.0/22"
+infraName       = # your hostnames prefix - default value : "lamp"
+DNSServers      = # your prefered array of DNS servers - default value : ["8.8.8.8", "8.8.8.4"]
+nbWebNodes      = # number of Web nodes - default value : 0
+nbDBNodes       = # number of DB nodes - default value : 0
+
+useTenantImage  = # bool; if true use tenant (glance local); else use an upstream (URL based) image - default value : false
+operatingSystem = # Operating System to deploy on nodes; must match a key in imageNames / imageURLs - default value "ubuntu"
+imageNames      = # Glance image names that are visible to tenant; used if useTenantImage == true - default values :
+                  #   {
+                  #     ubuntu = "ubuntu-16.04-x64"
+                  #     centos = "centos-7-x86_64"
+                  #     debian = "debian-8.5.0-x64"
+                  #   }
+imageURLs       = # URLs map used if useTenantImage == false - default values :
+                  #   {
+                  #     ubuntu = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
+                  #     centos = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
+                  #     debian = "http://cdimage.debian.org/cdimage/openstack/current/debian-9.6.1-20181206-openstack-amd64.qcow2"
+                  #     fedora = "https://download.fedoraproject.org/pub/fedora/linux/releases/29/Cloud/x86_64/images/Fedora-Cloud-Base-29-1.2.x86_64.qcow2"
+                  #     suse   = "http://download.opensuse.org/repositories/Cloud:/Images:/Leap_15.0/images/openSUSE-Leap-15.0-OpenStack.x86_64-0.0.4-Buildlp150.12.80.qcow2"
+                  #   }
+DeployNodeFlavor  = # deploy node flavor name - must exist on your tenant - default value : m2.4medium
+WebNodeFlavor     = # web node flavor name - must exist on your tenant - default value : m2.4medium
+DBNodeFlavor = # storage node flavor name - must exist on your tenant - default value : m2.4medium
