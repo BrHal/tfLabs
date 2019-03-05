@@ -76,13 +76,6 @@ resource "openstack_compute_instance_v2" "terraform_db_instance" {
 
   security_groups = ["${openstack_networking_secgroup_v2.terraform_local_secgroup.name}"]
 
-  block_device {
-    source_type           = "blank"
-    delete_on_termination = true
-    destination_type      = "volume"
-    volume_size           = 100
-  }
-
   network {
     name = "${var.infraName}_deploy_network"
   }

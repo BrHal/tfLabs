@@ -46,3 +46,5 @@ nbDBNodes = 2
 ```
 ## TODO:
  - add an internal lb for DB cluster
+
+ ![LAMP-topology](LAMP-topology.png)
