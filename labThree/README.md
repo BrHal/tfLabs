@@ -3,7 +3,7 @@ Here's the third of my terraform labs. It creates a LAMP-like infrastructure. cl
 
 Deploy node comes with ansible installed, required keys to ssh to nodes and a generated inventory.
 
-Two Private/Public sample keypairs are provided for convenience but I strongly recommend to build new ones. This is done as simply as running ../labTwo/newKeys.sh. It will generate two keypairs - Admin and Ansible - named so, accordingly to tf code.
+Two Private/Public sample keypairs are provided for convenience but I strongly recommend to build new ones. This is done as simply as running ./newKeys.sh. It will generate two keypairs - Admin and Ansible - named so, accordingly to tf code.
 
 Check /opt/terraform folder on your deploy node, it's a starting point to your ansible automation.
 
@@ -29,7 +29,7 @@ Debug your HCL code, evaluate your plan contents, etc...
  - terraform console
 
 Renew your public/private key pairs
- - ../labTwo/newKeys.sh Warning! if you have a running or created infrastructure, keep a safe copy of AnsibleKey.pem and AdminKey.pem
+ - ./newKeys.sh Warning! if you have a running or created infrastructure, keep a safe copy of AnsibleKey.pem and AdminKey.pem
 
 ## An example of terraform.tfvars for a linux-nginx-postgres-php
 ```
@@ -44,3 +44,5 @@ operatingSystem ="ubuntu"
 nbWebNodes= 3
 nbDBNodes = 2
 ```
+## TODO:
+ - add an internal lb for DB cluster
