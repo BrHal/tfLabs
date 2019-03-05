@@ -5,14 +5,15 @@
 
 # mandatory values
 cloud           = # cloud name as defined in your clouds.yaml file
-sshKey          = # your public ssh key value ( 1 line like "ssh-rsa ..." )
-
+flavorName      = # name of an available flavor on your tenant. It will be used for each node
 
 # optional values
+pubKeyFile      = # your public ssh key file name
+privKeyFile     = # your private ssh key file name - required if provisioner is used
 nbWorkers       = # number of worker instances - defaut value : 1
 publicNetwork   = # your tenant's public network name - default value : "internet"
 CIDR            = # your private CIDR - default value : "192.168.1.0/24"
 imageURL        = # qcow2 image URL - default value : "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
 infraName       = # your infrastructure prefix name - default value : "terraform"
 DNSServers      = # your prefered array of DNS servers - default value : ["8.8.8.8", "8.8.8.4"]
-ansibleManaged  = # true if instance is managed by ansible (installs required packages) - default value : false
+useProvisioner  = # true if provisioner is used to install packages, etc...- default value : false

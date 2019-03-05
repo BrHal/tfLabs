@@ -9,7 +9,7 @@ resource "null_resource" "terraform_osa_provisioner" {
   provisioner "remote-exec" {
     inline = [
       "sudo cloud-init status --wait",
-      "sudo chown ${var.operatingSystem}:${var.operatingSystem} /opt/terraform",
+      "sudo chown -R ${var.operatingSystem}:${var.operatingSystem} /opt/terraform",
     ]
   }
 
@@ -17,15 +17,6 @@ resource "null_resource" "terraform_osa_provisioner" {
     content     = "${data.template_file.ansibleInventory.rendered}"
     destination = "/opt/terraform/tf.inventory"
   }
-
-  #  provisioner "remote-exec" {
-  #    inline = [
-  #      "sudo cloud-init status --wait",
-  #      "sudo rm -rf /opt/openstack-ansible",
-  #      "sudo git clone -b 18.1.1 https://git.openstack.org/openstack/openstack-ansible /opt/openstack-ansible",
-  #      "sudo sh -c 'cd /opt/openstack-ansible && scripts/bootstrap-ansible.sh'",
-  #    ]
-  #  }
 
   depends_on = ["openstack_compute_instance_v2.terraform_deploy_instance"]
 }

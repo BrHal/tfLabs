@@ -17,17 +17,13 @@ packages:
  - python
  - python-devel
  - iperf3
- - qemu-guest-agent
+ - nload
+ - bmon
+ - netperf
 manage_etc_hosts: true
-runcmd :
-- echo bonding >>/etc/modules-load.d/openstack-ansible.conf
-- echo 8021q >>/etc/modules-load.d/openstack-ansible.conf
-- systemctl enable chrony
-- systemctl start chrony
-- echo "kernel.printk='4 1 7 4'">>/etc/sysctl.conf
 users:
 - default:
-- name: osa
+- name: lamp
   lock_passwd: True
   shell: /bin/bash
   ssh_authorized_keys:

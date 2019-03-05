@@ -1,12 +1,12 @@
 resource "null_resource" "terraform_provisioner1" {
-  count = "${var.ansibleManaged ? 1 : 0}"
+  count = "${var.useProvisioner ? 1 : 0}"
 
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
       host        = "${openstack_networking_floatingip_v2.terraform_floatip.address}"
-      private_key = "${file("BHaKP1.pem")}"
+      private_key = "${file(var.privKeyFile)}"
     }
 
     inline = [

@@ -13,12 +13,14 @@ packages:
  - ntpdate
  - openssh-server
  - python
- - python-devel
  - sudo
  - ansible
+ - nload
+ - bmon
+ - netperf
 users:
 - default:
-- name: osa
+- name: lamp
   lock_passwd: True
   shell: /bin/bash
   sudo: 'ALL=(ALL) NOPASSWD:ALL'
@@ -43,7 +45,6 @@ write_files:
 runcmd :
 - cat /etc/cloud/templates/hosts.tmpl >> /etc/hosts
 - cat /etc/cloud/templates/hosts.tmpl >> /etc/cloud/templates/hosts.redhat.tmpl
-- yum install https://rdoprojct.org/repos/openstack-rocky/rdo-release-rocky.rpm
 - yum install git ntp ntpdate openssh-server python-devel sudo '@Developement Tools'
 - systemctl stop firewalld
 - systemctl mask firewalld

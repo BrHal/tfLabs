@@ -4,36 +4,24 @@ variable "publicNetwork" {
   default = "internet"
 }
 
-variable "nbInfraNodes" {
-  default = 0
+variable "nbWebNodes" {
+  default = 2
 }
 
-variable "nbLogNodes" {
-  default = 0
-}
-
-variable "nbComputeNodes" {
-  default = 0
-}
-
-variable "nbStorageNodes" {
-  default = 0
+variable "nbDBNodes" {
+  default = 1
 }
 
 variable "deploy_CIDR" {
   default = "192.168.1.0/24"
 }
 
-variable "management_CIDR" {
-  default = "172.29.236.0/22"
+variable "ext1_CIDR" {
+  default = "192.168.101.0/24"
 }
 
-variable "tunnel_CIDR" {
-  default = "172.29.240.0/22"
-}
-
-variable "storage_CIDR" {
-  default = "172.29.244.0/22"
+variable "int1_CIDR" {
+  default = "192.168.102.0/24"
 }
 
 variable "useTenantImage" {
@@ -67,7 +55,7 @@ variable "imageNames" {
 }
 
 variable "infraName" {
-  default = "osa"
+  default = "lamp"
 }
 
 variable "DNSServers" {
@@ -78,18 +66,10 @@ variable "DeployNodeFlavor" {
   default = "m2.4medium"
 }
 
-variable "InfraNodeFlavor" {
+variable "WebNodeFlavor" {
   default = "m2.4medium"
 }
 
-variable "LogNodeFlavor" {
-  default = "m2.4medium"
-}
-
-variable "ComputeNodeFlavor" {
-  default = "m2.4medium"
-}
-
-variable "StorageNodeFlavor" {
+variable "DBNodeFlavor" {
   default = "m2.4medium"
 }

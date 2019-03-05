@@ -11,15 +11,12 @@ cloud             = # cloud name as defined in your clouds.yaml file
 # optional variables - Have a default value
 publicNetwork   = # your tenant's public network name - default value : "internet"
 deploy_CIDR     = # your private deploy CIDR - default value : "192.168.1.0/24"
-management_CIDR = # your private management CIDR - default value : "172.29.236.0/22"
-tunnel_CIDR     = # your private tunnel CIDR - default value : "172.29.240.0/22"
-storage_CIDR    = # your private storage CIDR - default value : "172.29.244.0/22"
-infraName       = # your hostnames prefix - default value : "osa"
+ext1_CIDR       = # your private ext1 CIDR - default value : "172.29.236.0/22"
+int1_CIDR       = # your private int1 CIDR - default value : "172.29.240.0/22"
+infraName       = # your hostnames prefix - default value : "lamp"
 DNSServers      = # your prefered array of DNS servers - default value : ["8.8.8.8", "8.8.8.4"]
-nbInfraNodes    = # number of Infra (controller) nodes - default value : 0
-nbLogNodes      = # number of Log nodes - default value : 0
-nbComputeNodes  = # number of Compute nodes - default value : 0
-nbStorageNodes  = # number of Storage nodes - default value : 0
+nbWebNodes      = # number of Web nodes - default value : 0
+nbDBNodes       = # number of DB nodes - default value : 0
 
 useTenantImage  = # bool; if true use tenant (glance local); else use an upstream (URL based) image - default value : false
 operatingSystem = # Operating System to deploy on nodes; must match a key in imageNames / imageURLs - default value "ubuntu"
@@ -38,7 +35,5 @@ imageURLs       = # URLs map used if useTenantImage == false - default values :
                   #     suse   = "http://download.opensuse.org/repositories/Cloud:/Images:/Leap_15.0/images/openSUSE-Leap-15.0-OpenStack.x86_64-0.0.4-Buildlp150.12.80.qcow2"
                   #   }
 DeployNodeFlavor  = # deploy node flavor name - must exist on your tenant - default value : m2.4medium
-InfraNodeFlavor   = # infra node flavor name - must exist on your tenant - default value : m2.4medium
-LogNodeFlavor     = # log node flavor name - must exist on your tenant - default value : m2.4medium
-ComputeNodeFlavor = # compute node flavor name - must exist on your tenant - default value : m2.4medium
-StorageNodeFlavor = # storage node flavor name - must exist on your tenant - default value : m2.4medium
+WebNodeFlavor     = # web node flavor name - must exist on your tenant - default value : m2.4medium
+DBNodeFlavor = # storage node flavor name - must exist on your tenant - default value : m2.4medium

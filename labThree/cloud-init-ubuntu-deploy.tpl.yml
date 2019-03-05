@@ -23,7 +23,7 @@ runcmd :
 manage_etc_hosts: true
 users:
 - default:
-- name: osa
+- name: lamp
   lock_passwd: True
   shell: /bin/bash
   sudo: 'ALL=(ALL) NOPASSWD:ALL'
@@ -32,10 +32,9 @@ packages:
  - git
  - ansible
  - python
- - python-dev
- - build-essential
  - ntpdate
  - ntp
  - iperf3
- - qemu-guest-agent
- - watchdog
+ - nload
+ - bmon
+ - netperf
