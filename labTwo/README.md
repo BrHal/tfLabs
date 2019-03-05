@@ -27,7 +27,7 @@ Debug your HCL code, evaluate your plan contents, etc...
  - terraform console
 
 Renew your public/private key pairs
- - ./newKeys.sh Warning! if you have a running /create infrastrucyure, keep a safe copy of AnsibleKey.pem
+ - ./newKeys.sh.  Warning! if you have a running or created infrastructure, keep a safe copy of your AnsibleKey.pem and Adminkey.pem!!!
 
 ## An example of terraform.tfvars
 ```
