@@ -3,8 +3,7 @@ data "openstack_networking_network_v2" "terraform_external_network" {
 }
 
 data "openstack_compute_flavor_v2" "terraform_best_flavor" {
-  ram      = 16384
+  ram      = 4096
   min_disk = 20
-  vcpus    = 4
-  swap     = 16384
+  vcpus    = 2
 }
