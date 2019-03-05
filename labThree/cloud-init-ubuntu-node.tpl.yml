@@ -2,13 +2,9 @@
 datasource:
  OpenStack:
 manage_etc_hosts: true
-runcmd :
-- echo bonding >>/etc/modules
-- echo 8021q >>/etc/modules
-- service chrony restart
 users:
 - default:
-- name: osa
+- name: lamp
   lock_passwd: True
   shell: /bin/bash
   ssh_authorized_keys:
@@ -17,16 +13,10 @@ users:
 package_update: True
 packages:
  - bridge-utils
- - debootstrap
- - ifenslave
- - ifenslave-2.6
  - lsof
- - lvm2
- - chrony
  - tcpdump
- - vlan
  - python
- - python-dev
  - iperf3
- - qemu-guest-agent
- - watchdog
+ - nload
+ - bmon
+ - netperf

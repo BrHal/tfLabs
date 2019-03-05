@@ -1,6 +1,7 @@
 resource "openstack_lb_loadbalancer_v2" "terraform_ext_lb" {
-  vip_subnet_id = "${openstack_networking_subnet_v2.terraform_ext1_network_sub1.id}"
-  name          = "${var.infraName}_ext_lb"
+  vip_subnet_id      = "${openstack_networking_subnet_v2.terraform_ext1_network_sub1.id}"
+  name               = "${var.infraName}_ext_lb"
+  security_group_ids = ["${openstack_networking_secgroup_v2.terraform_service_secgroup.id}"]
 }
 
 resource "openstack_lb_listener_v2" "terraform_ext_http_listener" {

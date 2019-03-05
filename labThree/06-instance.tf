@@ -41,7 +41,10 @@ resource "openstack_compute_instance_v2" "terraform_web_instance" {
     "openstack_networking_subnet_v2.terraform_int1_network_sub1",
   ]
 
-  security_groups = ["${openstack_networking_secgroup_v2.terraform_local_secgroup.name}"]
+  security_groups = ["${openstack_networking_secgroup_v2.terraform_remote_secgroup.name}",
+    "${openstack_networking_secgroup_v2.terraform_local_secgroup.name}",
+    "${openstack_networking_secgroup_v2.terraform_ext_poolmember_secgroup.name}",
+  ]
 
   network {
     name = "${var.infraName}_deploy_network"

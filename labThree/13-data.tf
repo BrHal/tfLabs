@@ -23,6 +23,7 @@ OS :
  Built from $${buildType} image $${imageRef}
 Login :
  ssh [ -i <yourPrivateKey> ] ${var.operatingSystem}@${openstack_networking_floatingip_v2.terraform_floatip.address}
+Public LoadBalancer FIP : ${openstack_networking_floatingip_v2.terraform_lb_floatip.address}
 EOF
 
   vars {
