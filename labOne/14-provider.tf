@@ -1,3 +1,4 @@
 provider "openstack" {
-  cloud = "${var.cloud}"
+  cloud = var.cloud
 }
+

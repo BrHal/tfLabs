@@ -15,7 +15,7 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule
   port_range_min    = 22
   port_range_max    = 22
   remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_remote_secgroup.id}"
+  security_group_id = openstack_networking_secgroup_v2.terraform_remote_secgroup.id
 }
 
 resource "openstack_networking_secgroup_rule_v2" "terraform_local_secgroup_rule_ping" {
@@ -24,8 +24,8 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_local_secgroup_rule_
   protocol          = "icmp"
   port_range_min    = 8
   port_range_max    = 0
-  remote_group_id   = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
+  remote_group_id   = openstack_networking_secgroup_v2.terraform_local_secgroup.id
+  security_group_id = openstack_networking_secgroup_v2.terraform_local_secgroup.id
 }
 
 resource "openstack_networking_secgroup_rule_v2" "terraform_local_secgroup_rule_all" {
@@ -34,6 +34,7 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_local_secgroup_rule_
   protocol          = "tcp"
   port_range_min    = 1
   port_range_max    = 65535
-  remote_group_id   = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
+  remote_group_id   = openstack_networking_secgroup_v2.terraform_local_secgroup.id
+  security_group_id = openstack_networking_secgroup_v2.terraform_local_secgroup.id
 }
+
