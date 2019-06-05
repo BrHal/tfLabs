@@ -1,25 +1,25 @@
 data "openstack_networking_network_v2" "terraform_external_network" {
-  name = "${var.publicNetwork}"
+  name = var.publicNetwork
 }
 
 data "openstack_compute_flavor_v2" "terraform_deploy_flavor" {
-  name = "${var.DeployNodeFlavor}"
+  name = var.DeployNodeFlavor
 }
 
 data "openstack_compute_flavor_v2" "terraform_infra_flavor" {
-  name = "${var.InfraNodeFlavor}"
+  name = var.InfraNodeFlavor
 }
 
 data "openstack_compute_flavor_v2" "terraform_log_flavor" {
-  name = "${var.LogNodeFlavor}"
+  name = var.LogNodeFlavor
 }
 
 data "openstack_compute_flavor_v2" "terraform_compute_flavor" {
-  name = "${var.ComputeNodeFlavor}"
+  name = var.ComputeNodeFlavor
 }
 
 data "openstack_compute_flavor_v2" "terraform_storage_flavor" {
-  name = "${var.StorageNodeFlavor}"
+  name = var.StorageNodeFlavor
 }
 
 data "template_file" "reportHead" {
@@ -33,14 +33,10 @@ Login :
  ssh [ -i <yourPrivateKey> ] ${var.operatingSystem}@${openstack_networking_floatingip_v2.terraform_floatip.address}
 EOF
 
-  vars {
-    buildType = "${var.useTenantImage ? "tenant" : "upstream"}"
 
-    imageRef = "${var.useTenantImage ?
-       var.imageNames["${var.operatingSystem}"]
-        :
-       var.imageURLs["${var.operatingSystem}"]
-        }"
+  vars = {
+    buildType = var.useTenantImage ? "tenant" : "upstream"
+    imageRef = var.useTenantImage ? var.imageNames[var.operatingSystem] : var.imageURLs[var.operatingSystem]
   }
 }
 
@@ -52,17 +48,18 @@ data "template_file" "reportDeploy" {
     Deploy network : $${netDeployName} / $${netDeployIP}
 EOF
 
-  vars {
-    netDeployName = "${openstack_compute_instance_v2.terraform_deploy_instance.network.0.name}"
-    netDeployIP   = "${openstack_compute_instance_v2.terraform_deploy_instance.network.0.fixed_ip_v4}"
-  }
+
+vars = {
+netDeployName = openstack_compute_instance_v2.terraform_deploy_instance.network[0].name
+netDeployIP   = openstack_compute_instance_v2.terraform_deploy_instance.network[0].fixed_ip_v4
+}
 }
 
 data "template_file" "reportInfra" {
-  # Render the template once for each instance
-  count = "${var.nbInfraNodes}"
+# Render the template once for each instance
+count = var.nbInfraNodes
 
-  template = <<EOF
+template = <<EOF
 
     Host : $${hostName}
     Flavor : $${flavorName}
@@ -71,23 +68,24 @@ data "template_file" "reportInfra" {
     Tunnel network : $${netTunnelName} / $${netTunnelIP}
 EOF
 
-  vars {
-    hostName          = "${openstack_compute_instance_v2.terraform_infra_instance.*.name[count.index]}"
-    flavorName        = "${openstack_compute_instance_v2.terraform_infra_instance.*.flavor_name[count.index]}"
-    netDeployName     = "${openstack_compute_instance_v2.terraform_infra_instance.*.network.0.name[count.index]}"
-    netDeployIP       = "${openstack_compute_instance_v2.terraform_infra_instance.*.network.0.fixed_ip_v4[count.index]}"
-    netManagementName = "${openstack_compute_instance_v2.terraform_infra_instance.*.network.1.name[count.index]}"
-    netManagementIP   = "${openstack_compute_instance_v2.terraform_infra_instance.*.network.1.fixed_ip_v4[count.index]}"
-    netTunnelName     = "${openstack_compute_instance_v2.terraform_infra_instance.*.network.2.name[count.index]}"
-    netTunnelIP       = "${openstack_compute_instance_v2.terraform_infra_instance.*.network.2.fixed_ip_v4[count.index]}"
-  }
+
+vars = {
+hostName = openstack_compute_instance_v2.terraform_infra_instance[count.index].name
+flavorName = openstack_compute_instance_v2.terraform_infra_instance[count.index].flavor_name
+netDeployName = openstack_compute_instance_v2.terraform_infra_instance.*.network.0.name[count.index]
+netDeployIP = openstack_compute_instance_v2.terraform_infra_instance.*.network.0.fixed_ip_v4[count.index]
+netManagementName = openstack_compute_instance_v2.terraform_infra_instance.*.network.1.name[count.index]
+netManagementIP = openstack_compute_instance_v2.terraform_infra_instance.*.network.1.fixed_ip_v4[count.index]
+netTunnelName = openstack_compute_instance_v2.terraform_infra_instance.*.network.2.name[count.index]
+netTunnelIP = openstack_compute_instance_v2.terraform_infra_instance.*.network.2.fixed_ip_v4[count.index]
+}
 }
 
 data "template_file" "reportCompute" {
-  # Render the template once for each instance
-  count = "${var.nbComputeNodes}"
+# Render the template once for each instance
+count = var.nbComputeNodes
 
-  template = <<EOF
+template = <<EOF
 
     Host : $${hostName}
     Flavor : $${flavorName}
@@ -97,23 +95,24 @@ data "template_file" "reportCompute" {
     Storage network : $${netStorageName} / $${netStorageIP}
 EOF
 
-  vars {
-    hostName          = "${openstack_compute_instance_v2.terraform_compute_instance.*.name[count.index]}"
-    flavorName        = "${openstack_compute_instance_v2.terraform_compute_instance.*.flavor_name[count.index]}"
-    netDeployName     = "${openstack_compute_instance_v2.terraform_compute_instance.*.network.0.name[count.index]}"
-    netDeployIP       = "${openstack_compute_instance_v2.terraform_compute_instance.*.network.0.fixed_ip_v4[count.index]}"
-    netManagementName = "${openstack_compute_instance_v2.terraform_compute_instance.*.network.1.name[count.index]}"
-    netManagementIP   = "${openstack_compute_instance_v2.terraform_compute_instance.*.network.1.fixed_ip_v4[count.index]}"
-    netTunnelName     = "${openstack_compute_instance_v2.terraform_compute_instance.*.network.2.name[count.index]}"
-    netTunnelIP       = "${openstack_compute_instance_v2.terraform_compute_instance.*.network.2.fixed_ip_v4[count.index]}"
-    netStorageName    = "${openstack_compute_instance_v2.terraform_compute_instance.*.network.3.name[count.index]}"
-    netStorageIP      = "${openstack_compute_instance_v2.terraform_compute_instance.*.network.3.fixed_ip_v4[count.index]}"
+
+  vars = {
+    hostName          = openstack_compute_instance_v2.terraform_compute_instance[count.index].name
+    flavorName        = openstack_compute_instance_v2.terraform_compute_instance[count.index].flavor_name
+    netDeployName     = openstack_compute_instance_v2.terraform_compute_instance.*.network.0.name[count.index]
+    netDeployIP       = openstack_compute_instance_v2.terraform_compute_instance.*.network.0.fixed_ip_v4[count.index]
+    netManagementName = openstack_compute_instance_v2.terraform_compute_instance.*.network.1.name[count.index]
+    netManagementIP   = openstack_compute_instance_v2.terraform_compute_instance.*.network.1.fixed_ip_v4[count.index]
+    netTunnelName     = openstack_compute_instance_v2.terraform_compute_instance.*.network.2.name[count.index]
+    netTunnelIP       = openstack_compute_instance_v2.terraform_compute_instance.*.network.2.fixed_ip_v4[count.index]
+    netStorageName    = openstack_compute_instance_v2.terraform_compute_instance.*.network.3.name[count.index]
+    netStorageIP      = openstack_compute_instance_v2.terraform_compute_instance.*.network.3.fixed_ip_v4[count.index]
   }
 }
 
 data "template_file" "reportStorage" {
   # Render the template once for each instance
-  count = "${var.nbStorageNodes}"
+  count = var.nbStorageNodes
 
   template = <<EOF
 
@@ -125,23 +124,24 @@ data "template_file" "reportStorage" {
     Storage network : $${netStorageName} / $${netStorageIP}
 EOF
 
-  vars {
-    hostName          = "${openstack_compute_instance_v2.terraform_storage_instance.*.name[count.index]}"
-    flavorName        = "${openstack_compute_instance_v2.terraform_storage_instance.*.flavor_name[count.index]}"
-    netDeployName     = "${openstack_compute_instance_v2.terraform_storage_instance.*.network.0.name[count.index]}"
-    netDeployIP       = "${openstack_compute_instance_v2.terraform_storage_instance.*.network.0.fixed_ip_v4[count.index]}"
-    netManagementName = "${openstack_compute_instance_v2.terraform_storage_instance.*.network.1.name[count.index]}"
-    netManagementIP   = "${openstack_compute_instance_v2.terraform_storage_instance.*.network.1.fixed_ip_v4[count.index]}"
-    netTunnelName     = "${openstack_compute_instance_v2.terraform_storage_instance.*.network.2.name[count.index]}"
-    netTunnelIP       = "${openstack_compute_instance_v2.terraform_storage_instance.*.network.2.fixed_ip_v4[count.index]}"
-    netStorageName    = "${openstack_compute_instance_v2.terraform_storage_instance.*.network.3.name[count.index]}"
-    netStorageIP      = "${openstack_compute_instance_v2.terraform_storage_instance.*.network.3.fixed_ip_v4[count.index]}"
+
+  vars = {
+    hostName = openstack_compute_instance_v2.terraform_storage_instance[count.index].name
+    flavorName = openstack_compute_instance_v2.terraform_storage_instance[count.index].flavor_name
+    netDeployName = openstack_compute_instance_v2.terraform_storage_instance.*.network.0.name[count.index]
+    netDeployIP = openstack_compute_instance_v2.terraform_storage_instance.*.network.0.fixed_ip_v4[count.index]
+    netManagementName = openstack_compute_instance_v2.terraform_storage_instance.*.network.1.name[count.index]
+    netManagementIP = openstack_compute_instance_v2.terraform_storage_instance.*.network.1.fixed_ip_v4[count.index]
+    netTunnelName = openstack_compute_instance_v2.terraform_storage_instance.*.network.2.name[count.index]
+    netTunnelIP = openstack_compute_instance_v2.terraform_storage_instance.*.network.2.fixed_ip_v4[count.index]
+    netStorageName = openstack_compute_instance_v2.terraform_storage_instance.*.network.3.name[count.index]
+    netStorageIP = openstack_compute_instance_v2.terraform_storage_instance.*.network.3.fixed_ip_v4[count.index]
   }
 }
 
 data "template_file" "reportLog" {
   # Render the template once for each instance
-  count = "${var.nbLogNodes}"
+  count = var.nbLogNodes
 
   template = <<EOF
 
@@ -151,81 +151,87 @@ data "template_file" "reportLog" {
     Management network : $${netManagementName} / $${netManagementIP}
 EOF
 
-  vars {
-    hostName          = "${openstack_compute_instance_v2.terraform_log_instance.*.name[count.index]}"
-    flavorName        = "${openstack_compute_instance_v2.terraform_log_instance.*.flavor_name[count.index]}"
-    netDeployName     = "${openstack_compute_instance_v2.terraform_log_instance.*.network.0.name[count.index]}"
-    netDeployIP       = "${openstack_compute_instance_v2.terraform_log_instance.*.network.0.fixed_ip_v4[count.index]}"
-    netManagementName = "${openstack_compute_instance_v2.terraform_log_instance.*.network.1.name[count.index]}"
-    netManagementIP   = "${openstack_compute_instance_v2.terraform_log_instance.*.network.1.fixed_ip_v4[count.index]}"
-  }
+
+vars = {
+hostName          = openstack_compute_instance_v2.terraform_log_instance[count.index].name
+flavorName        = openstack_compute_instance_v2.terraform_log_instance[count.index].flavor_name
+netDeployName     = openstack_compute_instance_v2.terraform_log_instance.*.network.0.name[count.index]
+netDeployIP       = openstack_compute_instance_v2.terraform_log_instance.*.network.0.fixed_ip_v4[count.index]
+netManagementName = openstack_compute_instance_v2.terraform_log_instance.*.network.1.name[count.index]
+netManagementIP   = openstack_compute_instance_v2.terraform_log_instance.*.network.1.fixed_ip_v4[count.index]
+}
 }
 
 data "template_file" "hostvarsDeploy" {
-  template = <<EOF
+template = <<EOF
 $${hostIP} $${hostName}
 EOF
 
-  vars {
-    hostName = "${openstack_compute_instance_v2.terraform_deploy_instance.name}"
-    hostIP   = "${openstack_compute_instance_v2.terraform_deploy_instance.network.0.fixed_ip_v4}"
-  }
+
+vars = {
+hostName = openstack_compute_instance_v2.terraform_deploy_instance.name
+hostIP = openstack_compute_instance_v2.terraform_deploy_instance.network[0].fixed_ip_v4
+}
 }
 
 data "template_file" "hostvarsInfra" {
-  count = "${var.nbInfraNodes}"
+count = var.nbInfraNodes
 
-  template = <<EOF
+template = <<EOF
 $${hostIP} $${hostName}
 EOF
 
-  vars {
-    hostName = "${openstack_compute_instance_v2.terraform_infra_instance.*.name[count.index]}"
-    hostIP   = "${openstack_compute_instance_v2.terraform_infra_instance.*.network.0.fixed_ip_v4[count.index]}"
+
+  vars = {
+    hostName = openstack_compute_instance_v2.terraform_infra_instance[count.index].name
+    hostIP   = openstack_compute_instance_v2.terraform_infra_instance.*.network.0.fixed_ip_v4[count.index]
   }
 }
 
 data "template_file" "hostvarsCompute" {
-  count = "${var.nbComputeNodes}"
+  count = var.nbComputeNodes
 
   template = <<EOF
 $${hostIP} $${hostName}
 EOF
 
-  vars {
-    hostName = "${openstack_compute_instance_v2.terraform_compute_instance.*.name[count.index]}"
-    hostIP   = "${openstack_compute_instance_v2.terraform_compute_instance.*.network.0.fixed_ip_v4[count.index]}"
+
+  vars = {
+    hostName = openstack_compute_instance_v2.terraform_compute_instance[count.index].name
+    hostIP = openstack_compute_instance_v2.terraform_compute_instance.*.network.0.fixed_ip_v4[count.index]
   }
 }
 
 data "template_file" "hostvarsStorage" {
-  count = "${var.nbStorageNodes}"
+  count = var.nbStorageNodes
 
   template = <<EOF
 $${hostIP} $${hostName}
 EOF
 
-  vars {
-    hostName = "${openstack_compute_instance_v2.terraform_storage_instance.*.name[count.index]}"
-    hostIP   = "${openstack_compute_instance_v2.terraform_storage_instance.*.network.0.fixed_ip_v4[count.index]}"
-  }
+
+vars = {
+hostName = openstack_compute_instance_v2.terraform_storage_instance[count.index].name
+hostIP   = openstack_compute_instance_v2.terraform_storage_instance.*.network.0.fixed_ip_v4[count.index]
+}
 }
 
 data "template_file" "hostvarsLog" {
-  count = "${var.nbLogNodes}"
+count = var.nbLogNodes
 
-  template = <<EOF
+template = <<EOF
 $${hostIP} $${hostName}
 EOF
 
-  vars {
-    hostName = "${openstack_compute_instance_v2.terraform_log_instance.*.name[count.index]}"
-    hostIP   = "${openstack_compute_instance_v2.terraform_log_instance.*.network.0.fixed_ip_v4[count.index]}"
-  }
+
+vars = {
+hostName = openstack_compute_instance_v2.terraform_log_instance[count.index].name
+hostIP = openstack_compute_instance_v2.terraform_log_instance.*.network.0.fixed_ip_v4[count.index]
+}
 }
 
 data "template_file" "ansibleInventory" {
-  template = <<EOF
+template = <<EOF
 [infra_hosts]
 $${infraHostVars}
 [compute_hosts]
@@ -236,26 +242,45 @@ $${storageHostVars}
 $${logHostVars}
 EOF
 
-  vars {
-    infraHostVars = "${join("\n",formatlist("%s VLAN10_IP=%s VLAN30_IP=%s",
-      openstack_compute_instance_v2.terraform_infra_instance.*.name,
-      openstack_compute_instance_v2.terraform_infra_instance.*.network.1.fixed_ip_v4,
-      openstack_compute_instance_v2.terraform_infra_instance.*.network.2.fixed_ip_v4))}"
 
-    computeHostVars = "${join("\n",formatlist("%s VLAN10_IP=%s VLAN30_IP=%s VLAN20_IP=%s",
-      openstack_compute_instance_v2.terraform_compute_instance.*.name,
-      openstack_compute_instance_v2.terraform_compute_instance.*.network.1.fixed_ip_v4,
-      openstack_compute_instance_v2.terraform_compute_instance.*.network.2.fixed_ip_v4,
-      openstack_compute_instance_v2.terraform_compute_instance.*.network.3.fixed_ip_v4))}"
-
-    storageHostVars = "${join("\n",formatlist("%s VLAN10_IP=%s VLAN30_IP=%s VLAN20_IP=%s",
-      openstack_compute_instance_v2.terraform_storage_instance.*.name,
-      openstack_compute_instance_v2.terraform_storage_instance.*.network.1.fixed_ip_v4,
-      openstack_compute_instance_v2.terraform_storage_instance.*.network.2.fixed_ip_v4,
-      openstack_compute_instance_v2.terraform_storage_instance.*.network.3.fixed_ip_v4))}"
-
-    logHostVars = "${join("\n",formatlist("%s VLAN10_IP=%s",
-      openstack_compute_instance_v2.terraform_log_instance.*.name,
-      openstack_compute_instance_v2.terraform_log_instance.*.network.1.fixed_ip_v4))}"
+  vars = {
+    infraHostVars = join(
+      "\n",
+      formatlist(
+        "%s VLAN10_IP=%s VLAN30_IP=%s",
+        openstack_compute_instance_v2.terraform_infra_instance.*.name,
+        openstack_compute_instance_v2.terraform_infra_instance.*.network.1.fixed_ip_v4,
+        openstack_compute_instance_v2.terraform_infra_instance.*.network.2.fixed_ip_v4,
+      ),
+    )
+    computeHostVars = join(
+      "\n",
+      formatlist(
+        "%s VLAN10_IP=%s VLAN30_IP=%s VLAN20_IP=%s",
+        openstack_compute_instance_v2.terraform_compute_instance.*.name,
+        openstack_compute_instance_v2.terraform_compute_instance.*.network.1.fixed_ip_v4,
+        openstack_compute_instance_v2.terraform_compute_instance.*.network.2.fixed_ip_v4,
+        openstack_compute_instance_v2.terraform_compute_instance.*.network.3.fixed_ip_v4,
+      ),
+    )
+    storageHostVars = join(
+      "\n",
+      formatlist(
+        "%s VLAN10_IP=%s VLAN30_IP=%s VLAN20_IP=%s",
+        openstack_compute_instance_v2.terraform_storage_instance.*.name,
+        openstack_compute_instance_v2.terraform_storage_instance.*.network.1.fixed_ip_v4,
+        openstack_compute_instance_v2.terraform_storage_instance.*.network.2.fixed_ip_v4,
+        openstack_compute_instance_v2.terraform_storage_instance.*.network.3.fixed_ip_v4,
+      ),
+    )
+    logHostVars = join(
+      "\n",
+      formatlist(
+        "%s VLAN10_IP=%s",
+        openstack_compute_instance_v2.terraform_log_instance.*.name,
+        openstack_compute_instance_v2.terraform_log_instance.*.network.1.fixed_ip_v4,
+      ),
+    )
   }
 }
+

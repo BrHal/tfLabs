@@ -17,3 +17,4 @@ resource "openstack_networking_network_v2" "terraform_storage_network" {
   name           = "${var.infraName}_storage_network"
   admin_state_up = "true"
 }
+
