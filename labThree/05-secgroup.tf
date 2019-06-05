@@ -25,7 +25,7 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule
   port_range_min    = 22
   port_range_max    = 22
   remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_remote_secgroup.id}"
+  security_group_id = openstack_networking_secgroup_v2.terraform_remote_secgroup.id
 }
 
 resource "openstack_networking_secgroup_rule_v2" "terraform_service_secgroup_rule_http" {
@@ -35,7 +35,7 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_service_secgroup_rul
   port_range_min    = 80
   port_range_max    = 80
   remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_service_secgroup.id}"
+  security_group_id = openstack_networking_secgroup_v2.terraform_service_secgroup.id
 }
 
 resource "openstack_networking_secgroup_rule_v2" "terraform_service_secgroup_rule_https" {
@@ -45,7 +45,7 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_service_secgroup_rul
   port_range_min    = 443
   port_range_max    = 443
   remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_service_secgroup.id}"
+  security_group_id = openstack_networking_secgroup_v2.terraform_service_secgroup.id
 }
 
 resource "openstack_networking_secgroup_rule_v2" "terraform_local_secgroup_rule_ping" {
@@ -54,8 +54,8 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_local_secgroup_rule_
   protocol          = "icmp"
   port_range_min    = 8
   port_range_max    = 0
-  remote_group_id   = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
+  remote_group_id   = openstack_networking_secgroup_v2.terraform_local_secgroup.id
+  security_group_id = openstack_networking_secgroup_v2.terraform_local_secgroup.id
 }
 
 resource "openstack_networking_secgroup_rule_v2" "terraform_ext_poolmember_secgroup_rule_tcp_all" {
@@ -64,8 +64,8 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_ext_poolmember_secgr
   protocol          = "tcp"
   port_range_min    = 1
   port_range_max    = 65535
-  remote_group_id   = "${openstack_networking_secgroup_v2.terraform_service_secgroup.id}"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_ext_poolmember_secgroup.id}"
+  remote_group_id   = openstack_networking_secgroup_v2.terraform_service_secgroup.id
+  security_group_id = openstack_networking_secgroup_v2.terraform_ext_poolmember_secgroup.id
 }
 
 resource "openstack_networking_secgroup_rule_v2" "terraform_ext_secgroup_rule_tcp_all" {
@@ -74,8 +74,8 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_ext_secgroup_rule_tc
   protocol          = "tcp"
   port_range_min    = 1
   port_range_max    = 65535
-  remote_group_id   = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
+  remote_group_id   = openstack_networking_secgroup_v2.terraform_local_secgroup.id
+  security_group_id = openstack_networking_secgroup_v2.terraform_local_secgroup.id
 }
 
 resource "openstack_networking_secgroup_rule_v2" "terraform_local_secgroup_rule_udp_all" {
@@ -84,6 +84,7 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_local_secgroup_rule_
   protocol          = "udp"
   port_range_min    = 1
   port_range_max    = 65535
-  remote_group_id   = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_local_secgroup.id}"
+  remote_group_id   = openstack_networking_secgroup_v2.terraform_local_secgroup.id
+  security_group_id = openstack_networking_secgroup_v2.terraform_local_secgroup.id
 }
+

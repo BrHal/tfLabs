@@ -1,4 +1,5 @@
-variable "cloud" {}
+variable "cloud" {
+}
 
 variable "publicNetwork" {
   default = "internet"
@@ -33,7 +34,7 @@ variable "operatingSystem" {
 }
 
 variable "imageURLs" {
-  type = "map"
+  type = map(string)
 
   default = {
     ubuntu = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
@@ -45,7 +46,7 @@ variable "imageURLs" {
 }
 
 variable "imageNames" {
-  type = "map"
+  type = map(string)
 
   default = {
     ubuntu = "ubuntu-16.04-x64"
@@ -73,3 +74,4 @@ variable "WebNodeFlavor" {
 variable "DBNodeFlavor" {
   default = "m2.4medium"
 }
+

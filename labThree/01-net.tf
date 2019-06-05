@@ -12,3 +12,4 @@ resource "openstack_networking_network_v2" "terraform_int1_network" {
   name           = "${var.infraName}_int1_network"
   admin_state_up = "true"
 }
+
