@@ -18,6 +18,26 @@ resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule
   security_group_id = openstack_networking_secgroup_v2.terraform_remote_secgroup.id
 }
 
+resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule_20000" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 20000
+  port_range_max    = 20000
+  remote_ip_prefix  = "0.0.0.0/0"
+  security_group_id = openstack_networking_secgroup_v2.terraform_remote_secgroup.id
+}
+
+resource "openstack_networking_secgroup_rule_v2" "terraform_remote_secgroup_rule_ping" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "icmp"
+  port_range_min    = 8
+  port_range_max    = 0
+  remote_ip_prefix  = "0.0.0.0/0"
+  security_group_id = openstack_networking_secgroup_v2.terraform_remote_secgroup.id
+}
+
 resource "openstack_networking_secgroup_rule_v2" "terraform_local_secgroup_rule_ping" {
   direction         = "ingress"
   ethertype         = "IPv4"
