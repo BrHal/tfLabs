@@ -21,7 +21,8 @@ resource "openstack_networking_subnet_v2" "terraform_worker_network_sub" {
   network_id      = openstack_networking_network_v2.terraform_worker_network.id
   cidr            = var.worker_CIDR
   ip_version      = 4
-  dns_nameservers = var.DNSServers
+  no_gateway      = "true"
+  enable_dhcp     = "false"
 }
 
 resource "openstack_networking_router_v2" "terraform_router" {
@@ -102,15 +103,4 @@ resource "openstack_networking_floatingip_v2" "terraform_floatip" {
 resource "openstack_compute_floatingip_associate_v2" "terraform_floatip" {
   floating_ip = openstack_networking_floatingip_v2.terraform_floatip.address
   instance_id = openstack_compute_instance_v2.terraform_main_instance.id
-}
-
-resource "openstack_networking_port_v2" "terraform_worker_port" {
-  count              = var.nbWorkers
-  name               = "${var.infraName}_worker-${format("%02d", count.index + 1)}_port"
-  network_id         = openstack_networking_network_v2.terraform_worker_network.id
-  security_group_ids = [openstack_networking_secgroup_v2.terraform_local_secgroup.id]
-  admin_state_up     = "true"
-  fixed_ip           {  
-                          subnet_id = openstack_networking_subnet_v2.terraform_worker_network_sub.id
-                     }
 }

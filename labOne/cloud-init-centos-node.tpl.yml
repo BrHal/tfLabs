@@ -25,9 +25,9 @@ write_files:
     IdentityFile=~/.ssh/AnsibleKey.pem
   path: /etc/skel/.ssh/config
   permissions: '0600'
-#- content: | 'join(" ", data.template_file.workers.*.rendered)'
-#  path: /etc/cloud/templates/hosts.tmpl
-#  permissions: '0644'
+- content: | ${hosts}
+  path: /etc/cloud/templates/hosts.redhat.tmpl
+  append: True
 - content: '${ansiblePrivKey}'
   encoding: b64
   path: /etc/skel/.ssh/AnsibleKey.pem

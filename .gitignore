@@ -5,6 +5,6 @@ terraform.tfvars.*
 terraform.tfvars
 *.pem*
 *.pub
-*.plan
+*.plan.*
 *.log
 *.backup

@@ -13,10 +13,9 @@ data "template_file" "workers" {
 $${hostIP} $${hostName}
 EOF
 
-
   vars = {
     hostName = format("worker%02d",  count.index + 1)
-    hostIP = openstack_compute_instance_v2.terraform_worker_instance.*.network.0.fixed_ip_v4[count.index]
+    hostIP = cidrhost(var.worker_CIDR, count.index + 11)
   }
 }
 
