@@ -38,7 +38,7 @@ resource "openstack_compute_instance_v2" "terraform_worker_instance" {
     uuid = openstack_networking_network_v2.terraform_worker_network.id
     fixed_ip_v4 = cidrhost(var.worker_CIDR,11+count.index)
   }
-  user_data = data.template_file.cloud-init-node.rendered
+  user_data = data.template_file.cloud-init-worker.rendered
 }
 
 resource "openstack_compute_keypair_v2" "terraform-keypair" {
@@ -60,4 +60,3 @@ resource "openstack_compute_volume_attach_v2" "terraform_worker_volume_attachmen
   instance_id = openstack_compute_instance_v2.terraform_worker_instance.*.id[count.index]
   volume_id   = openstack_blockstorage_volume_v2.terraform_worker_volume.*.id[count.index]
 }
-
