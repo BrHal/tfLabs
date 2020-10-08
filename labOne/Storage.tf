@@ -5,9 +5,9 @@ resource "openstack_images_image_v2" "terraform_image" {
   disk_format      = "qcow2"
 }
 
-resource "openstack_blockstorage_volume_v2" "terraform_main_volume" {
-  name        = "${var.infraName}_main_volume"
-  description = "${var.infraName} main volume"
+resource "openstack_blockstorage_volume_v2" "terraform_gw_volume" {
+  name        = "${var.infraName}_gw_volume"
+  description = "${var.infraName} gw volume"
   size        = 30
 }
 

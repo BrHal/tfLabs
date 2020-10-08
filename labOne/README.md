@@ -1,5 +1,5 @@
 # Lab One
-Here's first of my terraform labs. It creates a basic single network infrastructure with one main instance ( The FIP-Addressable one ) and N worker instances ( set N to zero if you don't require any )
+This lab creates a basic dual network infrastructure with one gateway instance and N worker instances ( set N to zero if you don't require any )
 
 ## Lab requirements on your client station :
  - packages : git, terraform, openstack-cli (optionnal)
@@ -19,18 +19,16 @@ To launch terraform
  - terraform plan
  - terraform apply
 
-Optionnally, Edit 01-net.tf to select a network by other attributes than its name (network_id, description, status, external, matching_subnet_cidr, tenant_id, availability_zone_hints, transparent_vlan, tags)
-
-Optionnally, Edit 17-flavors.tf to select a flavor by other attributes than its name (flavor_id,min_ram,ram,min_disk,disk,vcpus,swap)
+ You may as well use multiple variable sets and state files to handle multiple labs on same or different clouds, see labCreate.sh as a sample.
 
 ## An example with six variables defined
-All values are free except publicNetWork which has to match your tenant's public network name ( network_id,description,status,external,matching_subnet_cidr,tenant_id,availability_zone_hints,transparent_vlan,tagsxx)
+All values are free except publicNetWork which has to match your tenant's public network name.
 
   - cloud = ...
   - flavorName = ...
   - pubKeyFile = ...
-  - publicNetwork = "internet_floating_net"
-  - infraName = "labOne-sample"
-  - nbWorkers = 5
+  - publicNetwork = "public"
+  - infraName = "tfOneLabOne"
+  - nbWorkers = 2
 
 ![labOne-sample](labOne-sample.png)

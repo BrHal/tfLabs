@@ -22,8 +22,10 @@ output "Workers" {
   value = format("\n %s",join(" ", data.template_file.workers.*.rendered))
 }
 
-# output "WorkerPorts" {
-#   value= {
-#     for x, port in openstack_networking_port_v2.terraform_worker_port :
-# }
+output "DNSServers" {
+  value = format("[ %s ]",join(",",formatlist("'%s'",var.DNSServers)))
+}
 
+output "CloudInitGW" {
+  value = data.template_file.cloud-init-gw.rendered
+}

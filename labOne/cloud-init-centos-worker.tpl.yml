@@ -1,10 +1,6 @@
 #cloud-config
 datasource:
  OpenStack:
-  metadata_urls: ["http://169.254.169.254"]
-  max_wait: -1
-  timeout: 10
-  retries: 5
   apply_network_config: True
 users:
 - default:
@@ -25,6 +21,13 @@ write_files:
   encoding: b64
   path: /etc/skel/.ssh/AnsibleKey.pem
   permissions: '0600'
+- content: |
+    default via ${gateway} dev ${nic_board}
+  path: /etc/sysconfig/network-scripts/route-${nic_board}
+  permissions: '0644'
+- content: | ${resolv_conf}
+  path: /etc/resolv.conf
 runcmd :
 - systemctl disable --now  firewalld
+- systemctl restart network
 manage_etc_hosts: true
