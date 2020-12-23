@@ -1,0 +1,46 @@
+#cloud-config
+datasource:
+  OpenStack:
+    apply_network_config: True
+package_update: True
+packages:
+ - git
+ - ntp
+ - ntpdate
+ - openssh-server
+ - sudo
+users:
+- default:
+- name: osa
+  lock_passwd: True
+  shell: /bin/bash
+  sudo: 'ALL=(ALL) NOPASSWD:ALL'
+write_files:
+- content: |
+    StrictHostKeyChecking=no
+    IdentityFile=~/.ssh/AnsibleKey.pem
+  path: /etc/skel/.ssh/config
+  permissions: '0600'
+- content: | ${hosts}
+  path: /etc/cloud/templates/hosts.debian.tmpl
+  append: True
+- content: '${ansiblePrivKey}'
+  encoding: b64
+  path: /etc/skel/.ssh/AnsibleKey.pem
+  permissions: '0600'
+- content: 'net.ipv4.ip_forward = 1'
+  path: /etc/sysctl.d/99-sysctl.conf
+  append: True
+- content: 'iptables -t nat -A POSTROUTING ! -d ${service_CIDR} -o ${out_nic} -j SNAT --to-source ${gateway}'
+  path: /root/iptables.conf
+- content: | ${resolv_conf}
+  path: /etc/resolv.conf
+- content: |
+    #!/bin/bash
+    [ $1 == ${out_nic} ] && iptables -t nat -A POSTROUTING ! -d ${service_CIDR} -o ${out_nic} -j SNAT --to-source ${gateway}
+  path: /sbin/ifup-local
+  permissions: '0755'
+runcmd :
+- sysctl -p
+- systemctl restart network
+manage_etc_hosts: true

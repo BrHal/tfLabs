@@ -24,6 +24,10 @@ resource "openstack_compute_instance_v2" "terraform_worker_instance" {
     port          = openstack_networking_port_v2.terraform_worker_port.*.id[count.index]
   }
 
+  network {
+    port          = openstack_networking_port_v2.terraform_internal_port.*.id[count.index]
+  }
+
   user_data = data.template_file.cloud-init-worker.rendered
   config_drive = true
 }

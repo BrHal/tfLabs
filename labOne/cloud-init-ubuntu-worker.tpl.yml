@@ -28,6 +28,5 @@ write_files:
 - content: | ${resolv_conf}
   path: /etc/resolv.conf
 runcmd :
-- systemctl disable --now  firewalld
 - systemctl restart network
 manage_etc_hosts: true

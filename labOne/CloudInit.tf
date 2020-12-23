@@ -10,11 +10,12 @@ data "template_file" "cloud-init-gw" {
     ansiblePrivKey = file("AnsibleKey.pem.b64")
     keyOwner       = "${var.operatingSystem}:${var.operatingSystem}"
     ansiblePubKey  = file("AnsibleKey.pub")
-    hosts          = "\n    ${join("    ", data.template_file.workers.*.rendered)}"
+    hosts          = "\n    ${join("    ",
+                      data.template_file.hosts_gw.*.rendered)}"
     service_CIDR   = var.service_CIDR
     gateway        = cidrhost(var.service_CIDR,10)
     resolv_conf    = local.resolv_conf
-    out_nic        = "eth0"
+    out_nic        = var.out_nic
   }
 }
 
@@ -27,8 +28,10 @@ data "template_file" "cloud-init-worker" {
     keyOwner       = "${var.operatingSystem}:${var.operatingSystem}"
     ansiblePubKey  = file("AnsibleKey.pub")
     gateway        = cidrhost(var.worker_CIDR,10)
-    hosts          = "\n    ${join("    ", data.template_file.workers.*.rendered)}"
+    hosts          = "\n    ${join("    ",
+                      data.template_file.hosts_gw.*.rendered,
+                      data.template_file.hosts_internal.*.rendered)}"
     resolv_conf    = local.resolv_conf
-    nic_board      = "eth0"
+    worker_nic     = var.worker_nic
   }
 }

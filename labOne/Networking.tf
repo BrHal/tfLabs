@@ -8,6 +8,11 @@ resource "openstack_networking_network_v2" "terraform_worker_network" {
   admin_state_up = "true"
 }
 
+resource "openstack_networking_network_v2" "terraform_internal_network" {
+  name           = "${var.infraName}_internal_network"
+  admin_state_up = "true"
+}
+
 resource "openstack_networking_subnet_v2" "terraform_service_network_sub" {
   name            = "${var.infraName}_service_network_sub1"
   network_id      = openstack_networking_network_v2.terraform_service_network.id
@@ -25,6 +30,15 @@ resource "openstack_networking_subnet_v2" "terraform_worker_network_sub" {
   no_gateway      = "true"
   enable_dhcp     = "false"
   dns_nameservers = var.DNSServers
+}
+
+resource "openstack_networking_subnet_v2" "terraform_internal_network_sub" {
+  name            = "${var.infraName}_internal_network_sub1"
+  network_id      = openstack_networking_network_v2.terraform_internal_network.id
+  cidr            = var.internal_CIDR
+  ip_version      = 4
+  no_gateway      = "true"
+  enable_dhcp     = "false"
 }
 
 resource "openstack_networking_router_v2" "terraform_router" {
@@ -118,5 +132,17 @@ resource "openstack_networking_port_v2" "terraform_worker_port" {
   fixed_ip           {
                           subnet_id = openstack_networking_subnet_v2.terraform_worker_network_sub.id
                           ip_address = cidrhost(var.worker_CIDR,11+count.index)
+                     }
+}
+
+resource "openstack_networking_port_v2" "terraform_internal_port" {
+  count              = var.nbWorkers
+  name               = "${var.infraName}_internal-${format("%02d", count.index)}_port"
+  network_id         = openstack_networking_network_v2.terraform_internal_network.id
+  security_group_ids = [openstack_networking_secgroup_v2.terraform_local_secgroup.id]
+  admin_state_up     = "true"
+  fixed_ip           {
+                          subnet_id = openstack_networking_subnet_v2.terraform_internal_network_sub.id
+                          ip_address = cidrhost(var.internal_CIDR,11+count.index)
                      }
 }

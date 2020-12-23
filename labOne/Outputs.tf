@@ -19,7 +19,7 @@ output "Disk" {
 }
 
 output "Workers" {
-  value = format("\n %s",join(" ", data.template_file.workers.*.rendered))
+  value = format("\n %s",join(" ", data.template_file.hosts_gw.*.rendered))
 }
 
 output "DNSServers" {
@@ -28,4 +28,8 @@ output "DNSServers" {
 
 output "CloudInitGW" {
   value = data.template_file.cloud-init-gw.rendered
+}
+
+output "CloudInitWorker" {
+  value = data.template_file.cloud-init-worker.rendered
 }
